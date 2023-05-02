@@ -1,0 +1,34 @@
+Package: scoreLR
+Title: A Package that Creates Score-Based Likelihood Ratios and Evaluates
+    them Based on Various Methods
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Valerie", "Han", , "vhan@iastate.edu", role = c("aut", "cre")),
+    person("Marie", "Hardt", , "hardtme@iastate.edu", role = "aut"),
+    person("Anyesha", "Ray", , "anyeshar@iastate.edu", role = "aut")
+  )
+Description: This package computes SLRs using various methods that address
+    the dependence between the data and compares the various methods.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    assertthat,
+    dplyr,
+    ggplot2,
+    ks,
+    magrittr,
+    rlang,
+    ROCR,
+    shiny,
+    tidyr,
+    tidyselect
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+LitrVersionUsed: 0.7.0
+LitrId: 96fdd430c16d0363e9f0e60640510b46
