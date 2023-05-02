@@ -1,4 +1,6 @@
-
+---
+output: github_document
+---
 
 <!-- [![R-CMD-check](https://github.com/valeriehan6/scoreLR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/valeriehan6/scoreLR/actions/workflows/R-CMD-check.yaml) -->
 <!-- [![Coverage status](https://codecov.io/gh/valeriehan6/scoreLR/branch/main/graph/badge.svg)](https://codecov.io/github/valeriehan6/scoreLR?branch=main) -->
@@ -16,6 +18,7 @@ devtools::install_github("https://github.com/valeriehan6/scoreLR")
 ```
 
 ## Load Library
+
 ```{r, eval=FALSE}
 library(scoreLR)
 ```
@@ -29,23 +32,23 @@ How do you use this package?
 Read a dataset in that follows these requirements:
 
 ```{r, eval=F}
-exdata <- readr::read_csv("./data/shoe_data.csv")
+#exdata <- readr::read_csv("./data/shoe_data.csv")
+data(shoedata)
 ```
 
 
-Then create a train/test split that accounts for the dependence's using the dep_split function:
+Then create a train/test split that accounts for the dependences using the dep_split function:
 ```{r, eval=F}
-exdata_split <- dep_split(exdata, 0.8, 20230413)
-data <- exdata_split
+shoedata_split <- dep_split(shoedata, 0.8, 20230413)
 
-KM_train <- data %>% filter(source1 == source2 & train == TRUE) # split based on indicator column
-KM_test <- data %>% filter(source1 == source2 & train == FALSE) # split based on indicator column
-# Filter data to rows where source1 != source2
-KNM_train <- data %>% filter(source1 != source2 & train == TRUE)
-KNM_test <- data %>% filter(source1 != source2 & train == FALSE)
+
+KM_train <- shoedata_split %>% filter(source1 == source2 & train == TRUE) 
+KM_test <- shoedata_split %>% filter(source1 == source2 & train == FALSE)
+
+KNM_train <- shoedata_split %>% filter(source1 != source2 & train == TRUE)
+KNM_test <- shoedata_split %>% filter(source1 != source2 & train == FALSE)
 
 ```
-
 
 
 Calculate SLRs based on various methods:
@@ -57,7 +60,7 @@ avg_features(KM_train, KM_test, KNM_train, KNM_test)
 
 You can do it all in one step with the slr_results function:
 ```{r, eval=F}
-slr_results(data)
+slr_results(shoedata_split)
 ```
 
 
