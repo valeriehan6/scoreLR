@@ -11,12 +11,12 @@ This package computes SLRs using various methods that address the dependence bet
 
 You can install the development version of scoreLR like so:
 
-```{r}
+```{r, eval=FALSE}
 devtools::install_github("https://github.com/valeriehan6/scoreLR")
 ```
 
 ## Load Library
-```{r}
+```{r, eval=FALSE}
 library(scoreLR)
 ```
 
@@ -34,7 +34,7 @@ exdata <- readr::read_csv("./data/shoe_data.csv")
 
 
 Then create a train/test split that accounts for the dependence's using the dep_split function:
-```{r}
+```{r, eval=F}
 exdata_split <- dep_split(exdata, 0.8, 20230413)
 data <- exdata_split
 
@@ -49,14 +49,14 @@ KNM_test <- data %>% filter(source1 != source2 & train == FALSE)
 
 
 Calculate SLRs based on various methods:
-```{r}
+```{r, eval=F}
 ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
 avg_features(KM_train, KM_test, KNM_train, KNM_test)
 ```
 
 
 You can do it all in one step with the slr_results function:
-```{r}
+```{r, eval=F}
 slr_results(data)
 ```
 
