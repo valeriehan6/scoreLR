@@ -1,4 +1,5 @@
 library(shiny)
+library(shinybusy)
 require(ggplot2)
 require(dplyr)
 
@@ -8,6 +9,9 @@ shoedata_split <- dep_split(shoedata, 0.8, 585)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
+  
+  add_busy_spinner(spin = "fingerprint"),
+  
   # Application title
   titlePanel("ScoreLR App"),
   mainPanel("Please be patient. The plotting function takes a moment to run after you select the number of runs
