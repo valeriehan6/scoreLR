@@ -28,7 +28,10 @@ Depends:
     R (>= 2.10)
 LazyData: true
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LitrVersionUsed: 0.7.0
 LitrId: 96fdd430c16d0363e9f0e60640510b46
+VignetteBuilder: knitr
