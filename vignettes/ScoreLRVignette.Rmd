@@ -120,10 +120,15 @@ This function plots the ROC curve of each method individually.
 
 You can install the development version of scoreLR like so:
 
-```{r}
-remotes::install_github("https://github.com/valeriehan6/scoreLR")
+```{r, eval=FALSE}
+devtools::install_github("https://github.com/valeriehan6/scoreLR")
 ```
 
+
+# Load Library
+```{r, eval=FALSE}
+library(scoreLR)
+```
 
 
 
