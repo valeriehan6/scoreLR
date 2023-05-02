@@ -27,11 +27,11 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   output$hist <- renderPlot({
-    if(input$distribution=="normal") {
+    if(input$select=="normal") {
       xmin <- -10
       dist <- rnorm(n = input$num, mean = input$mean, sd = input$sd)
     }
-    if(input$distribution=="gamma") {
+    if(input$select=="gamma") {
       xmin <- 0
       # need to get shape and scale
       dist <- rgamma(n = input$num, shape=input$shape, scale=input$scale)
