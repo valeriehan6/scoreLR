@@ -1,6 +1,6 @@
 Package: scoreLR
-Title: A Package that Creates Score-Based Likelihood Ratios and Evaluates
-    them Based on Various Methods
+Title: Create Score-Based Likelihood Ratios and Evaluate
+    Them Based on Various Methods
 Version: 0.0.0.9000
 Authors@R: c(
     person("Valerie", "Han", , "vhan@iastate.edu", role = c("aut", "cre")),
