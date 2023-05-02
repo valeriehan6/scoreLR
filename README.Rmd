@@ -12,8 +12,14 @@ This package computes SLRs using various methods that address the dependence bet
 You can install the development version of scoreLR like so:
 
 ```{r}
-remotes::install_github("https://github.com/valeriehan6/scoreLR")
+devtools::install_github("https://github.com/valeriehan6/scoreLR")
 ```
+
+## Load Library
+```{r}
+library(scoreLR)
+```
+
 
 
 ## Example
