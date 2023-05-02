@@ -19,7 +19,7 @@ devtools::install_github("https://github.com/valeriehan6/scoreLR")
 
 ## Load Library
 
-```{r, eval=FALSE}
+```{r, eval=T}
 library(scoreLR)
 ```
 
