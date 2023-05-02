@@ -149,6 +149,7 @@ You can:
 First read in your data. Note your data must follow the specifications outlined in the data section. 
 ```{r, eval=FALSE}
 exdata <- readr::read_csv("./data/shoe_data.csv")
+
 ```
 
 
@@ -177,10 +178,11 @@ This output will give you two dataframes, one for your train data and one for yo
 
 Then you can calculate SLRs based on three methods. 
 ```{r, eval=FALSE}
-
 ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
 avg_features(KM_train, KM_test, KNM_train, KNM_test)
 ```
+The output gives you a dataframe of SLRs. 
+![](./images/SLR.png)
 
 
 You can compare the results using the slr_results function. 
@@ -189,9 +191,10 @@ slr_results(data)
 
 ```
 
-
 The last thing you can do is plot the ROC curves. 
 ```{r, eval=FALSE}
-plot_slr_roc(data, method = "AverageFeatures")
+plot_slr_roc(data,num_runs = 200, method = "IgnoreDependence")
 ```
 
+The output gives you a ROC plot. 
+![](./images/plot.png)
