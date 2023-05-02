@@ -29,7 +29,7 @@ slr_results <- function(data, unknown = NULL,
   # match.arg to select method
   method1 <- match.arg(method, choices = c("IgnoreDependence", "StrictIndependentSet",
                                           "AverageFeatures", "MultipleKDE"), 
-                      several.ok = TRUE) # should there be error if one method is ok and one isn't?
+                      several.ok = TRUE) 
   
   if(length(method) != length(method1)){warning("At least one of the methods is not recognized")}
   

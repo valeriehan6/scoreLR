@@ -93,7 +93,6 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
   KNM_indep_sets <- replicate(NUM_SETS, KNM_indep_set(), simplify=FALSE)
   
   # Calculating SLRs for Testing Data
-  ## need to store result
   if (nrow(KM_test) > 0) {
     KM_nums <- list()
     KM_denoms <- list()
