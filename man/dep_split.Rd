@@ -7,15 +7,18 @@
 dep_split(data, p, seed = NULL)
 }
 \arguments{
-\item{data}{Name and path of input file}
+\item{data}{Dataframe containing columns named \code{source1}, \code{source2}, \code{dep1}, and \code{dep2}. If \code{source1==source2}, this should indicate a known match (KM) pair, and if \code{source1!=source2}, this should indicate a known non-match (KNM) pair. The columns \code{dep1} and \code{dep2} should indicate dependence that you'd like the training/testing split to respect.}
 
 \item{p}{Training/Testing split percentage. Should be between 0 and 1.}
 
-\item{seed}{Set the seed of R's random number generator}
+\item{seed}{Seed for R's random number generator.}
 }
 \value{
-The original dataframe with an additional \code{train} column. p*100\% of the KNM pairs of dependencies are assigned to the training set.
+A dataframe with the same columns as the input \code{data} dataframe with an additional \code{train} column.
 }
 \description{
-Test/train split
+This function creates a column assigning rows to either the training or testing set. p*100\% of the KNM pairs of dependencies are assigned to the training set.
+}
+\examples{
+dep_split(shoedata, .75)
 }

@@ -1,11 +1,12 @@
 # Generated from scoreLR.Rmd: do not edit by hand
 
-#' optimal threshold
+#' Optimal threshold
+#' @description 
+#' This function estimates the optimal threshold for the provided SLRs. Optimality here is defined as minimizing the distance between the true positive and true negative rates.
 #' @importFrom stats optimize
-#' @param KM_SLR_train Known matches from training dataset
-#' @param KNM_SLR_train Known non matches from training dataset
-#' @returns threshold for SLR
-#' @export
+#' @param KM_SLR_train Vector of SLRs from known matches from the training dataset.
+#' @param KNM_SLR_train Vector of SLRs from known non-matches from the training dataset.
+#' @returns Optimal threshold for SLR. 
 opt_thresh <- function(KM_SLR_train, KNM_SLR_train) {
   
   func <- function(thresh) {

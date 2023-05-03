@@ -2,18 +2,18 @@
 % Please edit documentation in R/opt_thresh.R
 \name{opt_thresh}
 \alias{opt_thresh}
-\title{optimal threshold}
+\title{Optimal threshold}
 \usage{
 opt_thresh(KM_SLR_train, KNM_SLR_train)
 }
 \arguments{
-\item{KM_SLR_train}{Known matches from training dataset}
+\item{KM_SLR_train}{Vector of SLRs from known matches from the training dataset.}
 
-\item{KNM_SLR_train}{Known non matches from training dataset}
+\item{KNM_SLR_train}{Vector of SLRs from known non-matches from the training dataset.}
 }
 \value{
-threshold for SLR
+Optimal threshold for SLR.
 }
 \description{
-optimal threshold
+This function estimates the optimal threshold for the provided SLRs. Optimality here is defined as minimizing the distance between the true positive and true negative rates.
 }

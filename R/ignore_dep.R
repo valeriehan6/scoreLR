@@ -1,17 +1,40 @@
 # Generated from scoreLR.Rmd: do not edit by hand
 
-#' ignore dependence
+#' Ignore dependence
 #' @importFrom dplyr select
 #' @importFrom magrittr %>%
 #' @importFrom ks Hpi hpi kde
 #' @importFrom ROCR prediction performance
 #' @importFrom rlang .data
-#' @param KM_train Known matches from training dataset
-#' @param KM_test Known matches from testing dataset
-#' @param KNM_train Known non matches from training dataset
-#' @param KNM_test Known non matches from testing dataset
+#' @description 
+#' This function estimates the SLR function using the ignoring dependence method with `KM_train` and `KNM_train` and produces various output based on `KM_test`, `KNM_test`, and `unknown`.
+#' 
+#' `KM_train`, `KM_test`, `KNM_train`, `KNM_train` should all be dataframes containing columns named `source1`, `source2`, `dep1`, and `dep2`. Any remaining columns must be scores. There may be up to five scores. 
+#' @param KM_train Known matches (KM) from training dataset.
+#' @param KM_test Known matches (KM) from testing dataset.
+#' @param KNM_train Known non matches (KNM) from training dataset.
+#' @param KNM_test Known non matches (KNM) from testing dataset.
 #' @param unknown a data frame of scores from an unknown case. Column names should match the variable names set for scores.
-#' @returns slr evaluation for ignore dependence method
+#' @returns A list containing the following components:
+#' \itemize{
+#'   \item KM_SLR - SLRs for `KM_test`.
+#'   \item KNM_SLR - SLRs for `KNM_test`.
+#'   \item threshold - optimal threshold calculated using `KM_train` and `KNM_train`.
+#'   \item new_SLR - SLRs for `unknown`.
+#'   \item ROC_values - dataframe containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
+#' }
+#' @examples 
+#' # Set up data
+#' library(dplyr)
+#' shoedata_split <- dep_split(shoedata, 0.75)
+#' KM_train <- shoedata_split %>% filter(source1 == source2 & train == TRUE)
+#' KM_test <- shoedata_split %>% filter(source1 == source2 & train == FALSE)
+#' KNM_train <- shoedata_split %>% filter(source1 != source2 & train == TRUE)
+#' KNM_test <- shoedata_split %>% filter(source1 != source2 & train == FALSE)
+#' unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
+#'                       input_overlap = c(.01, 0.26))
+#' 
+#' ignore_dep(KM_train, KM_test, KNM_train, KNM_test, unknown)
 #' @export
 ignore_dep <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL) {
   
