@@ -182,7 +182,9 @@ ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
 avg_features(KM_train, KM_test, KNM_train, KNM_test)
 ```
 The output gives you a dataframe of SLRs. 
-![](./images/SLR.png)
+
+
+<img src="./images/SLR.png" />
 
 
 You can compare the results using the slr_results function. 

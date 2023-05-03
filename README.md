@@ -2,7 +2,9 @@
 <!-- [![R-CMD-check](https://github.com/valeriehan6/scoreLR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/valeriehan6/scoreLR/actions/workflows/R-CMD-check.yaml) -->
 <!-- [![Coverage status](https://codecov.io/gh/valeriehan6/scoreLR/branch/main/graph/badge.svg)](https://codecov.io/github/valeriehan6/scoreLR?branch=main) -->
 
-# scoreLR
+# scoreLR <img src="man/figures/logo.png" align="right" height="139" />
+
+<!-- # scoreLR -->
 
 This package computes SLRs using various methods that address the
 dependence between the data and compares the various methods.
