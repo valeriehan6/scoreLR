@@ -10,7 +10,7 @@
 #' @param seed seed for R's random number generator.
 #' @returns a data frame with the same columns as the input `data` data frame with an additional `train` column. 
 #' @examples 
-#' dep_split(shoedata, .75)
+#' head(dep_split(shoedata, .75))
 #' @export
 dep_split <- function(data, p, seed=NULL) {
   KM_df <- data %>%

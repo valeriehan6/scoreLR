@@ -1,7 +1,7 @@
 # Generated from scoreLR.Rmd: do not edit by hand
 
 #' Plot ROC curve for selected method
-#' @importFrom ggplot2 ggplot geom_line aes
+#' @importFrom ggplot2 ggplot geom_line aes theme_bw
 #' @importFrom dplyr full_join
 #' @importFrom assertthat assert_that
 #' @importFrom magrittr %>%
@@ -19,7 +19,8 @@
 #' # Set up
 #' shoedata_split <- dep_split(shoedata, 0.75)
 #' 
-#' plot_slr_roc(shoedata_split, method = "StrictIndependentSet", num_runs = 3)
+#' plot_slr_roc(shoedata_split, method = "StrictIndependentSet", num_runs = 3,
+#'              alpha = 0.5)
 #' @seealso [ignore_dep()] for "IgnoreDependence" method, [strict_indep_set()] for "StrictIndependentSet" method, [avg_features()] for "AverageFeatures" method, and [multiple_kde()] for "MultipleKDE" method. 
 #' @export
 plot_slr_roc <- function(data, method = "AverageFeatures", num_runs = 200, 
@@ -41,7 +42,8 @@ plot_slr_roc <- function(data, method = "AverageFeatures", num_runs = 200,
   roc1 %>%
     ggplot(aes(x = .data$fpr, y = .data$tpr, group=.data$rep)) + 
     geom_line(alpha=alpha) %>%
-    return()
+    return() + 
+    theme_bw()
   
 }
 

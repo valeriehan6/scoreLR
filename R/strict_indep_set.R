@@ -25,8 +25,8 @@
 #'   \item ROC_values - data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
 #' }
 #' @examples 
-#' # Set up data
 #' library(dplyr)
+#' # Set up data
 #' shoedata_split <- dep_split(shoedata, 0.75)
 #' KM_train <- shoedata_split %>% filter(source1 == source2 & train == TRUE)
 #' KM_test <- shoedata_split %>% filter(source1 == source2 & train == FALSE)
@@ -35,7 +35,7 @@
 #' unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
 #'                       input_overlap = c(.01, 0.26))
 #' 
-#' strict_indep_set(KM_train, KM_test, KNM_train, KNM_test, unknown)
+#' res <- strict_indep_set(KM_train, KM_test, KNM_train, KNM_test, unknown)
 #' @export
 strict_indep_set <- function(KM_train, KM_test, KNM_train, KNM_test, 
                              unknown=NULL, seed=NULL) {
