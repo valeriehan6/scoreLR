@@ -30,12 +30,11 @@ How do you use this package?
 Read a dataset in that follows these requirements:
 
 ``` r
-#exdata <- readr::read_csv("./data/shoe_data.csv")
 data(shoedata)
 ```
 
-Then create a train/test split that accounts for the dependences using
-the dep_split function:
+Then, create a train/test split that accounts for the dependencies using
+the `dep_split` function:
 
 ``` r
 shoedata_split <- dep_split(shoedata, 0.8, 20230413)
@@ -52,10 +51,12 @@ Calculate SLRs based on various methods:
 
 ``` r
 ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
+strict_indep_set(KM_train, KM_test, KNM_train, KNM_test)
 avg_features(KM_train, KM_test, KNM_train, KNM_test)
+multiple_kde(KM_train, KM_test, KNM_train, KNM_test)
 ```
 
-You can do it all in one step with the slr_results function:
+You can do it all in one step with the `slr_results` function:
 
 ``` r
 slr_results(shoedata_split)
