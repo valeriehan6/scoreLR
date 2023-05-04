@@ -34,6 +34,8 @@ Hd: The shoeprints at the crime scene were made by someone else's shoe.
   $$ SLR = \frac {f(s_1, . . . , s_k|H_p)} {f(s_1, . . . , s_k|H_d)}$$ where $f(s_1, . . . , s_k|H_p)$ and $f(s_1, . . . , s_k|H_d)$ are estimated densities for the scores $s_1 .. s_k$ under the two different hypotheses. Since the scores, do not obviously follow any known distribution, kernel density estimation (KDE) is used to estimate the KM and KNM distributions. However, KDE assumes that the scores are independent.  Scores computed from pairs of images are not independent because images of the same shoe appear in multiple pairs. For details about the data refer to the data section. There are four proposed methods to deal with this dependence issue. The first method is to ignore the fact that the observations cannot be assumed to be independent and implement KDE using all available scores. This method is labeled ignore_dep. Another is to remove the dependence in the dataset that is used to estimate a KDE and to reduce the sample to the largest independent subset of pairs. We call this the strict_indep_set.  In the third approach, we create multiple random independent subsets of the training dataset and implement KDE in each subset. This method is called multiple_kde. In the last method, we average over the scans that correspond to the same pair of shoes. Here the actual pairs of shoes included in the dataset are independent. This is called average_features. 
 
 
+--------
+
 # The Data 
 
 This package includes a dataset called shoe_data.csv. We use a large set of footwear outsole images created by the Center for Statistics and Applications in Forensic Evidence (CSAFE). One hundred and forty-seven pairs of worn shoes, each scanned four times, are included in the dataset. Note each row is a piece of evidence. 
@@ -50,8 +52,8 @@ The data in this package is a data frame with 926 rows and 7 variables:
 * input_overlap: score; proportion of overlapping pixels in the aligned images
 
 
-![](./images/datascreenshot.png)
 
+For an example of what the original data looks like, refer to example section. 
 
 
 
@@ -69,6 +71,9 @@ Your data should include:
 
 If sources match then that row will be labeled as a known match and if sources do not match it will be labeled as a known-non match. 
 
+
+--------
+ 
 # Functions
 
 
@@ -116,7 +121,11 @@ This function returns an independent KNM set of the data using `seed` given KNM_
 This function plots the ROC curve of each method individually.
 
 
-# Installation
+--------
+# Using scoreLR
+
+
+## Installation
 
 You can install the development version of scoreLR like so:
 
@@ -125,37 +134,38 @@ devtools::install_github("https://github.com/valeriehan6/scoreLR")
 ```
 
 
-# Load Library
-```{r, eval=FALSE}
+## Load Library
+```{r}
 library(scoreLR)
 ```
 
 
-
-# Using scoreLR
+```{r include=FALSE}
+library(dplyr)
+```
 
 
 There are a couple of ways to use this package. 
 
 You can:
-* Use all methods to get multiple slr values
-* Plot ROC 
-* Compare methods
+ * Use all methods to get multiple slr values
+ * Plot ROC 
+ * Compare methods
 
 
 
 ## Example
 
 First read in your data. Note your data must follow the specifications outlined in the data section. 
-```{r, eval=FALSE}
-exdata <- readr::read_csv("./data/shoe_data.csv")
-
+```{r}
+load("shoedata.rda")
+exdata <- shoedata
+head(shoedata)
 ```
 
 
-
 Then you can use the dep_split function to separate your data into training and testing data. 
-```{r, eval=F}
+```{r}
 exdata_split <- dep_split(exdata, 0.8, 20230413)
 data <- exdata_split
 
@@ -165,38 +175,42 @@ KM_test <- data %>% filter(source1 == source2 & train == FALSE) # split based on
 KNM_train <- data %>% filter(source1 != source2 & train == TRUE)
 KNM_test <- data %>% filter(source1 != source2 & train == FALSE)
 
+
+head(KM_train)
+head(KNM_test)
 ```
 
 
-This output will give you two dataframes, one for your train data and one for your test data:
 
-![](./images/traindata.png)
+This output will give you four dataframes, two for your train data (KM and KNM) and two for your test data(KM and KNM).
 
-
-![](./images/testdata.png)
 
 
 Then you can calculate SLRs based on three methods. 
-```{r, eval=FALSE}
-ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
-avg_features(KM_train, KM_test, KNM_train, KNM_test)
+```{r}
+ignoredep <- ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
+avgfeatures <- avg_features(KM_train, KM_test, KNM_train, KNM_test)
+
+head(ignoredep$KNM_SLR, 5)
+
 ```
+
 The output gives you a dataframe of SLRs. 
 
 
-<img src="./images/SLR.png" />
-
-
-You can compare the results using the slr_results function. 
-```{r, eval=FALSE}
-slr_results(data)
+```{r}
+results <- slr_results(data)
+head(results$IgnoreDependence[[2]], 5)
+head(results$StrictIndependentSet[[2]], 5)
+head(results$AverageFeatures[[2]], 5)
 
 ```
+
 
 The last thing you can do is plot the ROC curves. 
 ```{r, eval=FALSE}
-plot_slr_roc(data,num_runs = 200, method = "IgnoreDependence")
+plot_slr_roc(data, method = "IndependentSet", num_runs = 200, alpha = 0.1, NUM_SETS = 10, seed = NULL)
 ```
 
 The output gives you a ROC plot. 
-![](./images/plot.png)
+
