@@ -214,3 +214,14 @@ plot_slr_roc(data, method = "IndependentSet", num_runs = 200, alpha = 0.1, NUM_S
 
 The output gives you a ROC plot. 
 
+
+
+# Future Work 
+
+There are a couple things we would like to implement in the future. 
+
+* Include the final method in Classification performance of score-based likelihood ratios when data exhibit various
+degrees of dependence
+* Add more helper functions like allow for different definitions of optimality
+* Enable people to upload their own data to the Shiny App
+* Have a wrapper function
