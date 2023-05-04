@@ -26,13 +26,11 @@ slr_results(
 }
 \value{
 A list of the output for each of the methods in \code{method}. Each element of the list is a list containing the following components:
-\itemize{
-\item KM_SLR - SLRs for \code{KM_test}.
-\item KNM_SLR - SLRs for \code{KNM_test}.
-\item threshold - optimal threshold calculated using \code{KM_train} and \code{KNM_train}.
-\item new_SLR - SLRs for \code{unknown}.
-\item ROC_values - data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.
-}
+\item{KM_SLR}{SLRs for \code{KM_test}.}
+\item{KNM_SLR}{SLRs for \code{KNM_test}.}
+\item{threshold}{optimal threshold calculated using \code{KM_train} and \code{KNM_train}.}
+\item{new_SLR}{SLRs for \code{unknown}.}
+\item{ROC_values}{data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.}
 }
 \description{
 This function returns the results of one or more method of computing the SLR using the method functions in the package.

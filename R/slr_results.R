@@ -13,13 +13,11 @@
 #' @param NUM_SETS number of sets to use for multiple KDE method.
 #' @param seed  seed for R's random number generator.
 #' @returns A list of the output for each of the methods in `method`. Each element of the list is a list containing the following components:
-#' \itemize{
-#'   \item KM_SLR - SLRs for `KM_test`.
-#'   \item KNM_SLR - SLRs for `KNM_test`.
-#'   \item threshold - optimal threshold calculated using `KM_train` and `KNM_train`.
-#'   \item new_SLR - SLRs for `unknown`.
-#'   \item ROC_values - data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
-#' }
+#' \item{KM_SLR}{SLRs for `KM_test`.}
+#' \item{KNM_SLR}{SLRs for `KNM_test`.}
+#' \item{threshold}{optimal threshold calculated using `KM_train` and `KNM_train`.}
+#' \item{new_SLR}{SLRs for `unknown`.}
+#' \item{ROC_values}{data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.}
 #' @examples 
 #' # Set up
 #' shoedata_split <- dep_split(shoedata, 0.75)

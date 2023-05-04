@@ -17,13 +17,11 @@
 #' @param unknown data frame of scores from an unknown case. Column names should match the variable names set for scores.
 #' @param seed seed for R's random number generator.
 #' @returns A list containing the following components:
-#' \itemize{
-#'   \item KM_SLR - SLRs for `KM_test`.
-#'   \item KNM_SLR - SLRs for `KNM_test`.
-#'   \item threshold - optimal threshold calculated using `KM_train` and `KNM_train`.
-#'   \item new_SLR - SLRs for `unknown`.
-#'   \item ROC_values - data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
-#' }
+#' \item{KM_SLR}{SLRs for `KM_test`.}
+#' \item{KNM_SLR}{SLRs for `KNM_test`.}
+#' \item{threshold}{optimal threshold calculated using `KM_train` and `KNM_train`.}
+#' \item{new_SLR}{SLRs for `unknown`.}
+#' \item{ROC_values}{data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.}
 #' @examples 
 #' library(dplyr)
 #' # Set up data

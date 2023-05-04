@@ -19,13 +19,11 @@ avg_features(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL)
 }
 \value{
 A list containing the following components:
-\itemize{
-\item KM_SLR - SLRs for \code{KM_test}.
-\item KNM_SLR - SLRs for \code{KNM_test}.
-\item threshold - optimal threshold calculated using \code{KM_train} and \code{KNM_train}.
-\item new_SLR - SLRs for \code{unknown}.
-\item ROC_values - data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.
-}
+\item{KM_SLR}{SLRs for \code{KM_test}.}
+\item{KNM_SLR}{SLRs for \code{KNM_test}.}
+\item{threshold}{optimal threshold calculated using \code{KM_train} and \code{KNM_train}.}
+\item{new_SLR}{SLRs for \code{unknown}.}
+\item{ROC_values}{data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.}
 }
 \description{
 This function estimates the SLR function using the average features method, averaging each score over pairs of sources and computing kernel density estimation (KDE) on averaged features. The densities are estimated with \code{KM_train} and \code{KNM_train} and the function produces various output based on \code{KM_test}, \code{KNM_test}, and \code{unknown}.

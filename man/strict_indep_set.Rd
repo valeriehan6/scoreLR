@@ -28,13 +28,11 @@ strict_indep_set(
 }
 \value{
 A list containing the following components:
-\itemize{
-\item KM_SLR - SLRs for \code{KM_test}.
-\item KNM_SLR - SLRs for \code{KNM_test}.
-\item threshold - optimal threshold calculated using \code{KM_train} and \code{KNM_train}.
-\item new_SLR - SLRs for \code{unknown}.
-\item ROC_values - data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.
-}
+\item{KM_SLR}{SLRs for \code{KM_test}.}
+\item{KNM_SLR}{SLRs for \code{KNM_test}.}
+\item{threshold}{optimal threshold calculated using \code{KM_train} and \code{KNM_train}.}
+\item{new_SLR}{SLRs for \code{unknown}.}
+\item{ROC_values}{data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.}
 }
 \description{
 This function estimates the SLR function using the strict independent set method, computing the numerator and denominator density using only an independent set from \code{KM_train} and \code{KNM_train}, respectively. The function then produces various output based on \code{KM_test}, \code{KNM_test}, and \code{unknown}.
