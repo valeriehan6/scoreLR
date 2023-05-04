@@ -20,5 +20,5 @@ a data frame with the same columns as the input \code{data} data frame with an a
 This function creates a column assigning rows to either the training or testing set. p*100\% of the KNM pairs of dependencies are assigned to the training set.
 }
 \examples{
-dep_split(shoedata, .75)
+head(dep_split(shoedata, .75))
 }

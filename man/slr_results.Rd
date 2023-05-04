@@ -43,10 +43,10 @@ shoedata_split <- dep_split(shoedata, 0.75)
 unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
                       input_overlap = c(.01, 0.26))
 
-slr_results(shoedata_split, unknown) # all methods
-slr_results(shoedata_split, unknown,
+res_all <- slr_results(shoedata_split, unknown) # all methods
+res_def <- slr_results(shoedata_split, unknown,
             c("IgnoreDependence", "StrictIndependentSet")) # default methods
-slr_results(shoedata_split, unknown, 
+res_prop <- slr_results(shoedata_split, unknown, 
             c("AverageFeatures", "MultipleKDE")) # proposed methods
 }
 \seealso{

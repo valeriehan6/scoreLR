@@ -42,8 +42,8 @@ This function estimates the SLR function using the strict independent set method
 \code{KM_train}, \code{KM_test}, \code{KNM_train}, \code{KNM_train} should all be data frames containing columns named \code{source1}, \code{source2}, \code{dep1}, and \code{dep2}. Any remaining columns must be scores. There may be up to five scores.
 }
 \examples{
-# Set up data
 library(dplyr)
+# Set up data
 shoedata_split <- dep_split(shoedata, 0.75)
 KM_train <- shoedata_split \%>\% filter(source1 == source2 & train == TRUE)
 KM_test <- shoedata_split \%>\% filter(source1 == source2 & train == FALSE)
@@ -52,5 +52,5 @@ KNM_test <- shoedata_split \%>\% filter(source1 != source2 & train == FALSE)
 unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
                       input_overlap = c(.01, 0.26))
 
-strict_indep_set(KM_train, KM_test, KNM_train, KNM_test, unknown)
+res <- strict_indep_set(KM_train, KM_test, KNM_train, KNM_test, unknown)
 }

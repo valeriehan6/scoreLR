@@ -36,7 +36,8 @@ This function returns a plot of the ROC curves produced by \code{num_runs} times
 # Set up
 shoedata_split <- dep_split(shoedata, 0.75)
 
-plot_slr_roc(shoedata_split, method = "StrictIndependentSet", num_runs = 3)
+plot_slr_roc(shoedata_split, method = "StrictIndependentSet", num_runs = 3,
+             alpha = 0.5)
 }
 \seealso{
 \code{\link[=ignore_dep]{ignore_dep()}} for "IgnoreDependence" method, \code{\link[=strict_indep_set]{strict_indep_set()}} for "StrictIndependentSet" method, \code{\link[=avg_features]{avg_features()}} for "AverageFeatures" method, and \code{\link[=multiple_kde]{multiple_kde()}} for "MultipleKDE" method.
