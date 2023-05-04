@@ -49,3 +49,6 @@ slr_results(shoedata_split, unknown,
 slr_results(shoedata_split, unknown, 
             c("AverageFeatures", "MultipleKDE")) # proposed methods
 }
+\seealso{
+\code{\link[=ignore_dep]{ignore_dep()}} for "IgnoreDependence" method, \code{\link[=strict_indep_set]{strict_indep_set()}} for "StrictIndependentSet" method, \code{\link[=avg_features]{avg_features()}} for "AverageFeatures" method, and \code{\link[=multiple_kde]{multiple_kde()}} for "MultipleKDE" method.
+}

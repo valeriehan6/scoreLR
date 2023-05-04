@@ -31,6 +31,7 @@
 #'             c("IgnoreDependence", "StrictIndependentSet")) # default methods
 #' slr_results(shoedata_split, unknown, 
 #'             c("AverageFeatures", "MultipleKDE")) # proposed methods
+#' @seealso [ignore_dep()] for "IgnoreDependence" method, [strict_indep_set()] for "StrictIndependentSet" method, [avg_features()] for "AverageFeatures" method, and [multiple_kde()] for "MultipleKDE" method.
 #' @export
 slr_results <- function(data, unknown = NULL,
                         method = c("IgnoreDependence", "StrictIndependentSet", 

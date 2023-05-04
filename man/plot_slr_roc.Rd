@@ -30,11 +30,14 @@ plot_slr_roc(
 plot of selected method.
 }
 \description{
-This function returns a plot of the ROC curves produced by \code{num_runs} times of running \code{slr_results}. Note that this function only supports plotting one method at a time.
+This function returns a plot of the ROC curves produced by \code{num_runs} times of running \code{\link[=slr_results]{slr_results()}}. Note that this function only supports plotting one method at a time.
 }
 \examples{
 # Set up
 shoedata_split <- dep_split(shoedata, 0.75)
 
-plot_slr_roc(shoedata_split, method = "IgnoreDependence", num_runs = 3)
+plot_slr_roc(shoedata_split, method = "StrictIndependentSet", num_runs = 3)
+}
+\seealso{
+\code{\link[=ignore_dep]{ignore_dep()}} for "IgnoreDependence" method, \code{\link[=strict_indep_set]{strict_indep_set()}} for "StrictIndependentSet" method, \code{\link[=avg_features]{avg_features()}} for "AverageFeatures" method, and \code{\link[=multiple_kde]{multiple_kde()}} for "MultipleKDE" method.
 }
