@@ -95,12 +95,13 @@
 quantify the weight of evidence and have been used in many forensic
 disciplines. Using the context of footwear evidence to make the problem
 more concrete, similarity/dissimilarity scores are computed from pairs
-of shoeprints. Therefore, there is a dependence between scores that
-share a shoeprint or shoe in common. Given up to 5
-similarity/dissimilarity scores, we include four different methods of
-computing the SLR that address the dependence. We also provide a
-visualization of the resulting SLR using a ROC curve. More information
-can be found on the corresponding <a href="https://github.com/valeriehan6/scoreLR" class="external-link">Github repository</a>.</p>
+of shoeprints. Note that there is a dependence between scores that share
+a shoeprint or shoe in common. Given up to 5 similarity/dissimilarity
+scores, we include four different methods of computing the SLR that
+address the dependence. We also provide a visualization of the resulting
+SLR using an ROC curve. More information can be found on the
+corresponding <a href="https://github.com/valeriehan6/scoreLR" class="external-link">Github
+repository</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="slrs">SLRs<a class="anchor" aria-label="anchor" href="#slrs"></a>
@@ -115,12 +116,13 @@ estimate the distributions of the score under two competing propositions
 using experimental pairs of items with a known origin. However, using
 items from the same source to build these distributions can result in
 score dependence. This dependence can affect the accuracy of the SLR as
-a classifier. To address this issue, researchers have used kernel
-density estimation and explored methods to improve the performance of
-the SLR. The performance is measured based on accuracy, true positive
-rate, true negative rate, and the rate of weak or misleading evidence.
-One method has shown significantly better performance in three out of
-four performance criteria compared to default methods.</p>
+a classifier. To address this issue, Han (2022) explored methods to
+improve the performance of the SLR where kernel density estimation (KDE)
+was used to estimate the SLR. There, performance was measured based on
+accuracy, true positive rate, true negative rate, and the rate of weak
+or misleading evidence with the average features method showing
+significantly better performance in three out of four performance
+criteria compared to default methods.</p>
 </div>
 <div class="section level3">
 <h3 id="using-slr-with-footwear-evidence">Using SLR with Footwear Evidence<a class="anchor" aria-label="anchor" href="#using-slr-with-footwear-evidence"></a>
@@ -131,9 +133,9 @@ Additionally, high-quality impressions of a suspect’s shoe outsole are
 available to the forensic scientist. The question of interest is whether
 the suspect’s shoe could have produced the prints at the crime scene. To
 answer this question, we can rephrase the problem as a test of two
-propositions: Hp: The shoeprints at the crime scene were made by the
-suspect’s shoe. Hd: The shoeprints at the crime scene were made by
-someone else’s shoe.</p>
+propositions: <span class="math inline">\(H_p\)</span>: The shoeprints
+at the crime scene were made by the suspect’s shoe. <span class="math inline">\(H_d\)</span>: The shoeprints at the crime scene
+were made by someone else’s shoe.</p>
 </div>
 <div class="section level3">
 <h3 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
@@ -144,7 +146,7 @@ shoeprints, the SLR is defined as</p>
 <p><span class="math display">\[ SLR = \frac {f(s_1, . . . , s_k|H_p)}
 {f(s_1, . . . , s_k|H_d)}\]</span> where <span class="math inline">\(f(s_1, . . . , s_k|H_p)\)</span> and <span class="math inline">\(f(s_1, . . . , s_k|H_d)\)</span> are estimated
 densities for the scores <span class="math inline">\(s_1 .. s_k\)</span>
-under the two different hypotheses. Since the scores, do not obviously
+under the two different hypotheses. Since the scores do not obviously
 follow any known distribution, kernel density estimation (KDE) is used
 to estimate the KM and KNM distributions. However, KDE assumes that the
 scores are independent. Scores computed from pairs of images are not
@@ -161,52 +163,65 @@ training dataset and implement KDE in each subset. This method is called
 multiple_kde. In the last method, we average over the scans that
 correspond to the same pair of shoes. Here the actual pairs of shoes
 included in the dataset are independent. This is called
-average_features.</p>
+average_features. <!-- still need to read the above paragraph --></p>
 <hr>
 </div>
 </div>
 <div class="section level2">
 <h2 id="the-data">The Data<a class="anchor" aria-label="anchor" href="#the-data"></a>
 </h2>
-<p>This package includes a dataset called shoe_data.csv. We use a large
-set of footwear outsole images created by the Center for Statistics and
-Applications in Forensic Evidence (CSAFE). One hundred and forty-seven
-pairs of worn shoes, each scanned four times, are included in the
-dataset. Note each row is a piece of evidence.</p>
+<p>This package includes a dataset called <code>shoedata</code>. We use
+a large set of footwear outsole images collected by the Center for
+Statistics and Applications in Forensic Evidence (CSAFE). One hundred
+and forty-seven pairs of worn shoes, each scanned four times, were
+included in that dataset. A subset are included in the package. Note
+each row corresponds to a pair of scans.</p>
 <p>The data in this package is a data frame with 926 rows and 7
 variables:</p>
 <ul>
-<li>source1: shoe identifier for the first shoe, left (L) or right
-(R)</li>
-<li>dep1: pair identifier for the first shoe</li>
-<li>source2: shoe identifier for the second shoe, left (L) or right
-(R)</li>
-<li>dep2: pair identifier for the second shoe</li>
-<li>clique_size: score; size of the maximal clique</li>
-<li>med_dist_euc: score; median Euclidean distance between overlapping
-pixels</li>
-<li>input_overlap: score; proportion of overlapping pixels in the
-aligned images</li>
+<li>
+<code>source1</code>: shoe identifier for the first shoe, left (L)
+or right (R)</li>
+<li>
+<code>dep1</code>: pair identifier for the first shoe</li>
+<li>
+<code>source2</code>: shoe identifier for the second shoe, left (L)
+or right (R)</li>
+<li>
+<code>dep2</code>: pair identifier for the second shoe</li>
+<li>
+<code>clique_size</code>: score; size of the maximal clique</li>
+<li>
+<code>med_dist_euc</code>: score; median Euclidean distance between
+overlapping pixels</li>
+<li>
+<code>input_overlap</code>: score; proportion of overlapping pixels
+in the aligned images</li>
 </ul>
 <p>For an example of what the original data looks like, refer to example
 section.</p>
 <div class="section level3">
 <h3 id="inputting-new-data">Inputting New Data:<a class="anchor" aria-label="anchor" href="#inputting-new-data"></a>
 </h3>
-<p>You can choose to import your own dataset, but it must be of an
-identical format with the same variable names.</p>
+<p>You can choose to import your own dataset, but it must be of a
+specific format with specific names.</p>
 <p>Your data should include:</p>
 <ul>
-<li>source1: identifier for the first item</li>
-<li>dep1: pair identifier for the first item</li>
-<li>source2: identifier for the second item</li>
-<li>dep2: pair identifier for the second item</li>
+<li>
+<code>source1</code>: identifier for the first item</li>
+<li>
+<code>dep1</code>: pair identifier for the first item</li>
+<li>
+<code>source2</code>: identifier for the second item</li>
+<li>
+<code>dep2</code>: pair identifier for the second item</li>
 <li>You can include up to five columns of scores where each column
 represents a different “function” (like euclidean, basic difference,
 deviation, etc). These do not have to be named something specific.</li>
 </ul>
-<p>If sources match then that row will be labeled as a known match and
-if sources do not match it will be labeled as a known-non match.</p>
+<p>If sources match, then that row will be labeled as a known match and
+if sources do not match, it will be labeled as a known-non match.
+<!-- need to add something about function of dep1 and dep2 --></p>
 <hr>
 </div>
 </div>
@@ -220,14 +235,15 @@ if sources do not match it will be labeled as a known-non match.</p>
 <p>This function creates a train/test split for datasets with
 dependencies. The resulting data will be in the form of a dataframe with
 an added column for known match(KM) and known non match. You can specify
-the train/test split percentage: p - 100*p. Note p is between 0 and
-1.</p>
+the train/test split proportion <code>p</code>. Note <code>p</code> is
+between 0 and 1.</p>
 </div>
 <div class="section level4">
 <h4 id="slr_results">slr_results<a class="anchor" aria-label="anchor" href="#slr_results"></a>
 </h4>
-<p>This function is essentially a wrapper function that compares the
-results of the various methods.</p>
+<p>This function is essentially a wrapper function that computes the
+results of various methods given a dataframe with the training/testing
+split already done.</p>
 </div>
 <div class="section level4">
 <h4 id="plot_slr_roc">plot_slr_roc<a class="anchor" aria-label="anchor" href="#plot_slr_roc"></a>
@@ -242,7 +258,7 @@ rate at various threshold settings.</p>
 <div class="section level4">
 <h4 id="ignore_dep">1. ignore_dep<a class="anchor" aria-label="anchor" href="#ignore_dep"></a>
 </h4>
-<p>This function returns a slr evaluation for the ignore dependence
+<p>This function returns an SLR evaluation for the ignore dependence
 method. This method, like the name suggests, ignores that multivariate
 observations cannot be assumed to be independent, and implements kernel
 density estimation using all available scores.</p>
@@ -250,7 +266,7 @@ density estimation using all available scores.</p>
 <div class="section level4">
 <h4 id="strict_indep_set">2. strict_indep_set<a class="anchor" aria-label="anchor" href="#strict_indep_set"></a>
 </h4>
-<p>This function returns a slr evaluation for the strict independence
+<p>This function returns a SLR evaluation for the strict independence
 set. To use this method, we construct an independent subset of the
 observations where each item only appears in one pair. The resulting
 dataset is much smaller than the original sample.</p>
@@ -258,14 +274,14 @@ dataset is much smaller than the original sample.</p>
 <div class="section level4">
 <h4 id="avg_features">3. avg_features<a class="anchor" aria-label="anchor" href="#avg_features"></a>
 </h4>
-<p>This function returns a slr evaluation for the average features
+<p>This function returns a SLR evaluation for the average features
 method. This method averages over the scans that correspond to the same
 pairs. This results in an independent set of multivariate scores.</p>
 </div>
 <div class="section level4">
 <h4 id="multiple_kde">4. multiple_kde<a class="anchor" aria-label="anchor" href="#multiple_kde"></a>
 </h4>
-<p>This function returns a slr evaluation for the multiple kde method.
+<p>This function returns a SLR evaluation for the multiple kde method.
 This method creates multiple random independent subsets of the training
 dataset and implements KDE in each subset.</p>
 </div>
@@ -288,12 +304,7 @@ using <code>seed</code>.</p>
 <h4 id="indep_knm_set">indep_knm_set<a class="anchor" aria-label="anchor" href="#indep_knm_set"></a>
 </h4>
 <p>This function returns an independent KNM set of the data using
-<code>seed</code> given KNM_train.</p>
-</div>
-<div class="section level4">
-<h4 id="plot_slr_roc-1">plot_slr_roc<a class="anchor" aria-label="anchor" href="#plot_slr_roc-1"></a>
-</h4>
-<p>This function plots the ROC curve of each method individually.</p>
+<code>seed</code>.</p>
 <hr>
 </div>
 </div>
@@ -387,12 +398,12 @@ training and testing data.</p>
 <span><span class="co">#&gt; 4 0.0024987138</span></span>
 <span><span class="co">#&gt; 5 0.0016595295</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">StrictIndependentSet</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            SLR</span></span>
-<span><span class="co">#&gt; 1 0.0048803558</span></span>
-<span><span class="co">#&gt; 2 0.0003492355</span></span>
-<span><span class="co">#&gt; 3 0.0090494723</span></span>
-<span><span class="co">#&gt; 4 0.0447480368</span></span>
-<span><span class="co">#&gt; 5 0.0035042704</span></span>
+<span><span class="co">#&gt;          SLR</span></span>
+<span><span class="co">#&gt; 1 0.01483938</span></span>
+<span><span class="co">#&gt; 2 0.00028416</span></span>
+<span><span class="co">#&gt; 3 0.01140817</span></span>
+<span><span class="co">#&gt; 4 0.03779566</span></span>
+<span><span class="co">#&gt; 5 0.01168457</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">AverageFeatures</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           SLR</span></span>
 <span><span class="co">#&gt; 1 4.53568e-09</span></span>
