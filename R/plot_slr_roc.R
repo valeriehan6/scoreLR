@@ -6,16 +6,21 @@
 #' @importFrom assertthat assert_that
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-#' @param data Dataset
-#' @param method Method to calculate SLR options include c("IgnoreDependence", "StrictIndependentSet", "AverageFeatures", "MultipleKDE")
-#' @param num_runs number of runs to run slr results
-#' @param alpha transparency parameter from ggplot2
-#' @param NUM_SETS number of sets to use for multiple kde method
-#' @param seed  Set the seed of R‘s random number generator
-#' @returns ROC plot of selected method
+#' @description 
+#' This function returns a plot of the ROC curves produced by `num_runs` times of running `slr_results`. Note that this function only supports plotting one method at a time.
+#' @param data data frame containing columns named `source1`, `source2`, `dep1`,  `dep2`, and `train`. The `train` column should be a logical vector with `TRUE` denoting the training set and `FALSE` the test set. Any remaining columns must be scores. There may be up to five scores. 
+#' @param method string. Options are "IgnoreDependence", "StrictIndependentSet", "AverageFeatures", and "MultipleKDE".
+#' @param num_runs number of times to run `slr_results`.
+#' @param alpha transparency parameter from `ggplot2` package.
+#' @param NUM_SETS number of sets to use for multiple KDE method.
+#' @param seed  seed of R‘s random number generator.
+#' @returns plot of selected method.
+#' @examples 
+#' # Set up
+#' shoedata_split <- dep_split(shoedata, 0.75)
+#' 
+#' plot_slr_roc(shoedata_split, method = "IgnoreDependence", num_runs = 3)
 #' @export
-# only one method at a time works
-# alpha is a transparency parameter from ggplot2
 plot_slr_roc <- function(data, method = "AverageFeatures", num_runs = 200, 
                          alpha = 0.1, NUM_SETS = 10, seed = NULL) {
   # check that only one method is inputted
@@ -34,7 +39,8 @@ plot_slr_roc <- function(data, method = "AverageFeatures", num_runs = 200,
   
   roc1 %>%
     ggplot(aes(x = .data$fpr, y = .data$tpr, group=.data$rep)) + 
-    geom_line(alpha=alpha)
+    geom_line(alpha=alpha) %>%
+    return()
   
 }
 

@@ -14,21 +14,27 @@ plot_slr_roc(
 )
 }
 \arguments{
-\item{data}{Dataset}
+\item{data}{data frame containing columns named \code{source1}, \code{source2}, \code{dep1},  \code{dep2}, and \code{train}. The \code{train} column should be a logical vector with \code{TRUE} denoting the training set and \code{FALSE} the test set. Any remaining columns must be scores. There may be up to five scores.}
 
-\item{method}{Method to calculate SLR options include c("IgnoreDependence", "StrictIndependentSet", "AverageFeatures", "MultipleKDE")}
+\item{method}{string. Options are "IgnoreDependence", "StrictIndependentSet", "AverageFeatures", and "MultipleKDE".}
 
-\item{num_runs}{number of runs to run slr results}
+\item{num_runs}{number of times to run \code{slr_results}.}
 
-\item{alpha}{transparency parameter from ggplot2}
+\item{alpha}{transparency parameter from \code{ggplot2} package.}
 
-\item{NUM_SETS}{number of sets to use for multiple kde method}
+\item{NUM_SETS}{number of sets to use for multiple KDE method.}
 
-\item{seed}{Set the seed of R‘s random number generator}
+\item{seed}{seed of R‘s random number generator.}
 }
 \value{
-ROC plot of selected method
+plot of selected method.
 }
 \description{
-Plot ROC curve for selected method
+This function returns a plot of the ROC curves produced by \code{num_runs} times of running \code{slr_results}. Note that this function only supports plotting one method at a time.
+}
+\examples{
+# Set up
+shoedata_split <- dep_split(shoedata, 0.75)
+
+plot_slr_roc(shoedata_split, method = "IgnoreDependence", num_runs = 3)
 }

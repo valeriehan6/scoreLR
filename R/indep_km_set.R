@@ -1,13 +1,13 @@
 # Generated from scoreLR.Rmd: do not edit by hand
 
-#' independent known match set
+#' Independent known match set
 #' @importFrom dplyr group_by arrange count
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-#' @param KM_train Known matches from training dataset
-#' @param seed Random seed
-#' @returns independent KM set of the training data using `seed`
-#' Returns an independent KM set of the training data using `seed`
+#' @description This function returns an independent set of known matches (KM) using `seed`.
+#' @param KM_train known matches (KM) from training dataset.
+#' @param seed seed for R's random number generator.
+#' @returns dataframe with same columns as `KM_train` only containing an independent KM set of the training data.
 indep_km_set <- function(KM_train, seed=NULL) {
   set.seed(seed)
   

@@ -14,19 +14,38 @@ slr_results(
 )
 }
 \arguments{
-\item{data}{Dataset}
+\item{data}{data frame containing columns named \code{source1}, \code{source2}, \code{dep1},  \code{dep2}, and \code{train}. The \code{train} column should be a logical vector with \code{TRUE} denoting the training set and \code{FALSE} the test set. Any remaining columns must be scores. There may be up to five scores.}
 
-\item{unknown}{a data frame of scores from an unknown case. Column names should match the variable names set for scores.}
+\item{unknown}{data frame of scores from an unknown case. Column names should match the variable names set for scores.}
 
-\item{method}{Method to calculate SLR Method to calculate SLR options include c("IgnoreDependence", "StrictIndependentSet", "AverageFeatures", "MultipleKDE")}
+\item{method}{vector of methods to calculate the SLR. Options include "IgnoreDependence", "StrictIndependentSet", "AverageFeatures", and "MultipleKDE".}
 
-\item{NUM_SETS}{number of sets to use for multiple kde method}
+\item{NUM_SETS}{number of sets to use for multiple KDE method.}
 
-\item{seed}{Set the seed of R‘s random number generator}
+\item{seed}{seed for R's random number generator.}
 }
 \value{
-slr results
+A list of the output for each of the methods in \code{method}. Each element of the list is a list containing the following components:
+\itemize{
+\item KM_SLR - SLRs for \code{KM_test}.
+\item KNM_SLR - SLRs for \code{KNM_test}.
+\item threshold - optimal threshold calculated using \code{KM_train} and \code{KNM_train}.
+\item new_SLR - SLRs for \code{unknown}.
+\item ROC_values - data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.
+}
 }
 \description{
-Results of one or more method of computing the SLR
+This function returns the results of one or more method of computing the SLR using the method functions in the package.
+}
+\examples{
+# Set up
+shoedata_split <- dep_split(shoedata, 0.75)
+unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
+                      input_overlap = c(.01, 0.26))
+
+slr_results(shoedata_split, unknown) # all methods
+slr_results(shoedata_split, unknown,
+            c("IgnoreDependence", "StrictIndependentSet")) # default methods
+slr_results(shoedata_split, unknown, 
+            c("AverageFeatures", "MultipleKDE")) # proposed methods
 }

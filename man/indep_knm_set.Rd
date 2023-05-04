@@ -2,19 +2,18 @@
 % Please edit documentation in R/indep_knm_set.R
 \name{indep_knm_set}
 \alias{indep_knm_set}
-\title{independent known non match set}
+\title{Independent known non match set}
 \usage{
 indep_knm_set(KNM_train, seed = NULL)
 }
 \arguments{
-\item{KNM_train}{Known non matches from training dataset}
+\item{KNM_train}{known non matches (KNM) from training dataset.}
 
-\item{seed}{Random seed}
+\item{seed}{seed for R's random number generator.}
 }
 \value{
-independent KNM set of the data using \code{seed}
-Given KNM_train, returns an independent KNM set of the data using \code{seed}
+dataframe with same columns as \code{KNM_train} only containing an independent KM set of the training data.
 }
 \description{
-independent known non match set
+This function returns an independent set of known non matches (KNM) using \code{seed}.
 }

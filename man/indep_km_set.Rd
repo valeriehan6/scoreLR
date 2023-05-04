@@ -2,19 +2,18 @@
 % Please edit documentation in R/indep_km_set.R
 \name{indep_km_set}
 \alias{indep_km_set}
-\title{independent known match set}
+\title{Independent known match set}
 \usage{
 indep_km_set(KM_train, seed = NULL)
 }
 \arguments{
-\item{KM_train}{Known matches from training dataset}
+\item{KM_train}{known matches (KM) from training dataset.}
 
-\item{seed}{Random seed}
+\item{seed}{seed for R's random number generator.}
 }
 \value{
-independent KM set of the training data using \code{seed}
-Returns an independent KM set of the training data using \code{seed}
+dataframe with same columns as \code{KM_train} only containing an independent KM set of the training data.
 }
 \description{
-independent known match set
+This function returns an independent set of known matches (KM) using \code{seed}.
 }

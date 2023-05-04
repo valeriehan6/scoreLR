@@ -5,12 +5,32 @@
 #' @importFrom magrittr %>%
 #' @importFrom assertthat assert_that has_name
 #' @importFrom rlang .data
-#' @param data Dataset
-#' @param unknown a data frame of scores from an unknown case. Column names should match the variable names set for scores.
-#' @param method Method to calculate SLR Method to calculate SLR options include c("IgnoreDependence", "StrictIndependentSet", "AverageFeatures", "MultipleKDE")
-#' @param NUM_SETS number of sets to use for multiple kde method
-#' @param seed  Set the seed of R‘s random number generator
-#' @returns slr results
+#' @description 
+#' This function returns the results of one or more method of computing the SLR using the method functions in the package.
+#' @param data data frame containing columns named `source1`, `source2`, `dep1`,  `dep2`, and `train`. The `train` column should be a logical vector with `TRUE` denoting the training set and `FALSE` the test set. Any remaining columns must be scores. There may be up to five scores. 
+#' @param unknown data frame of scores from an unknown case. Column names should match the variable names set for scores.
+#' @param method vector of methods to calculate the SLR. Options include "IgnoreDependence", "StrictIndependentSet", "AverageFeatures", and "MultipleKDE".
+#' @param NUM_SETS number of sets to use for multiple KDE method.
+#' @param seed  seed for R's random number generator.
+#' @returns A list of the output for each of the methods in `method`. Each element of the list is a list containing the following components:
+#' \itemize{
+#'   \item KM_SLR - SLRs for `KM_test`.
+#'   \item KNM_SLR - SLRs for `KNM_test`.
+#'   \item threshold - optimal threshold calculated using `KM_train` and `KNM_train`.
+#'   \item new_SLR - SLRs for `unknown`.
+#'   \item ROC_values - data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
+#' }
+#' @examples 
+#' # Set up
+#' shoedata_split <- dep_split(shoedata, 0.75)
+#' unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
+#'                       input_overlap = c(.01, 0.26))
+#' 
+#' slr_results(shoedata_split, unknown) # all methods
+#' slr_results(shoedata_split, unknown,
+#'             c("IgnoreDependence", "StrictIndependentSet")) # default methods
+#' slr_results(shoedata_split, unknown, 
+#'             c("AverageFeatures", "MultipleKDE")) # proposed methods
 #' @export
 slr_results <- function(data, unknown = NULL,
                         method = c("IgnoreDependence", "StrictIndependentSet", 
@@ -29,7 +49,7 @@ slr_results <- function(data, unknown = NULL,
   # match.arg to select method
   method1 <- match.arg(method, choices = c("IgnoreDependence", "StrictIndependentSet",
                                           "AverageFeatures", "MultipleKDE"), 
-                      several.ok = TRUE) 
+                      several.ok = TRUE) # should there be error if one method is ok and one isn't?
   
   if(length(method) != length(method1)){warning("At least one of the methods is not recognized")}
   

@@ -9,11 +9,11 @@
 #' @description 
 #' This function estimates the SLR function using the ignoring dependence method with `KM_train` and `KNM_train` and produces various output based on `KM_test`, `KNM_test`, and `unknown`.
 #' 
-#' `KM_train`, `KM_test`, `KNM_train`, `KNM_train` should all be dataframes containing columns named `source1`, `source2`, `dep1`, and `dep2`. Any remaining columns must be scores. There may be up to five scores. 
-#' @param KM_train Known matches (KM) from training dataset.
-#' @param KM_test Known matches (KM) from testing dataset.
-#' @param KNM_train Known non matches (KNM) from training dataset.
-#' @param KNM_test Known non matches (KNM) from testing dataset.
+#' `KM_train`, `KM_test`, `KNM_train`, `KNM_train` should all be data frames containing columns named `source1`, `source2`, `dep1`, and `dep2`. Any remaining columns must be scores. There may be up to five scores. 
+#' @param KM_train known matches (KM) from training dataset.
+#' @param KM_test known matches (KM) from testing dataset.
+#' @param KNM_train known non matches (KNM) from training dataset.
+#' @param KNM_test known non matches (KNM) from testing dataset.
 #' @param unknown a data frame of scores from an unknown case. Column names should match the variable names set for scores.
 #' @returns A list containing the following components:
 #' \itemize{
@@ -21,7 +21,7 @@
 #'   \item KNM_SLR - SLRs for `KNM_test`.
 #'   \item threshold - optimal threshold calculated using `KM_train` and `KNM_train`.
 #'   \item new_SLR - SLRs for `unknown`.
-#'   \item ROC_values - dataframe containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
+#'   \item ROC_values - data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
 #' }
 #' @examples 
 #' # Set up data

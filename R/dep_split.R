@@ -5,10 +5,10 @@
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @description This function creates a column assigning rows to either the training or testing set. p*100% of the KNM pairs of dependencies are assigned to the training set.
-#' @param data Dataframe containing columns named `source1`, `source2`, `dep1`, and `dep2`. If `source1==source2`, this should indicate a known match (KM) pair, and if `source1!=source2`, this should indicate a known non-match (KNM) pair. The columns `dep1` and `dep2` should indicate dependence that you'd like the training/testing split to respect. 
-#' @param p Training/Testing split percentage. Should be between 0 and 1. 
-#' @param seed Seed for R's random number generator.
-#' @returns A dataframe with the same columns as the input `data` dataframe with an additional `train` column. 
+#' @param data data frame containing columns named `source1`, `source2`, `dep1`, and `dep2`. If `source1==source2`, this should indicate a known match (KM) pair, and if `source1!=source2`, this should indicate a known non-match (KNM) pair. The columns `dep1` and `dep2` should indicate dependence that you'd like the training/testing split to respect. 
+#' @param p training/testing split percentage. Should be between 0 and 1. 
+#' @param seed seed for R's random number generator.
+#' @returns a data frame with the same columns as the input `data` data frame with an additional `train` column. 
 #' @examples 
 #' dep_split(shoedata, .75)
 #' @export

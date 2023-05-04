@@ -7,13 +7,13 @@
 ignore_dep(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL)
 }
 \arguments{
-\item{KM_train}{Known matches (KM) from training dataset.}
+\item{KM_train}{known matches (KM) from training dataset.}
 
-\item{KM_test}{Known matches (KM) from testing dataset.}
+\item{KM_test}{known matches (KM) from testing dataset.}
 
-\item{KNM_train}{Known non matches (KNM) from training dataset.}
+\item{KNM_train}{known non matches (KNM) from training dataset.}
 
-\item{KNM_test}{Known non matches (KNM) from testing dataset.}
+\item{KNM_test}{known non matches (KNM) from testing dataset.}
 
 \item{unknown}{a data frame of scores from an unknown case. Column names should match the variable names set for scores.}
 }
@@ -24,13 +24,13 @@ A list containing the following components:
 \item KNM_SLR - SLRs for \code{KNM_test}.
 \item threshold - optimal threshold calculated using \code{KM_train} and \code{KNM_train}.
 \item new_SLR - SLRs for \code{unknown}.
-\item ROC_values - dataframe containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.
+\item ROC_values - data frame containing columns the true positive rate \code{tpr} and false positive rate \code{fpr} computed using \code{KM_test} and \code{KNM_test}.
 }
 }
 \description{
 This function estimates the SLR function using the ignoring dependence method with \code{KM_train} and \code{KNM_train} and produces various output based on \code{KM_test}, \code{KNM_test}, and \code{unknown}.
 
-\code{KM_train}, \code{KM_test}, \code{KNM_train}, \code{KNM_train} should all be dataframes containing columns named \code{source1}, \code{source2}, \code{dep1}, and \code{dep2}. Any remaining columns must be scores. There may be up to five scores.
+\code{KM_train}, \code{KM_test}, \code{KNM_train}, \code{KNM_train} should all be data frames containing columns named \code{source1}, \code{source2}, \code{dep1}, and \code{dep2}. Any remaining columns must be scores. There may be up to five scores.
 }
 \examples{
 # Set up data

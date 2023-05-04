@@ -1,13 +1,13 @@
 # Generated from scoreLR.Rmd: do not edit by hand
 
-#' independent known non match set
+#' Independent known non match set
 #' @importFrom dplyr group_by count arrange 
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-#' @param KNM_train Known non matches from training dataset
-#' @param seed Random seed
-#' @returns independent KNM set of the data using `seed`
-#' Given KNM_train, returns an independent KNM set of the data using `seed`
+#' @description This function returns an independent set of known non matches (KNM) using `seed`.
+#' @param KNM_train known non matches (KNM) from training dataset.
+#' @param seed seed for R's random number generator.
+#' @returns dataframe with same columns as `KNM_train` only containing an independent KM set of the training data.
 indep_knm_set <- function(KNM_train, seed=NULL) {
   set.seed(seed)
   

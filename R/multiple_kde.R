@@ -1,17 +1,40 @@
 # Generated from scoreLR.Rmd: do not edit by hand
 
-#' Calculate the SLR by computing KDE of numerator and denominator on multiple independent sets and averaging the estimated densities.
+#' Multiple independent sets
 #' @importFrom dplyr arrange group_by count select
 #' @importFrom magrittr %>%
 #' @importFrom ROCR prediction performance
 #' @importFrom rlang .data
-#' @param KM_train Known matches from training dataset
-#' @param KM_test Known matches from testing dataset
-#' @param KNM_train Known non matches from training dataset
-#' @param KNM_test Known non matches from testing dataset
-#' @param NUM_SETS number of sets to use
-#' @param unknown a data frame of scores from an unknown case. Column names should match the variable names set for scores.
-#' @returns slr evaluation for multiple kde method
+#' @description 
+#' This function estimates the SLR function using the multiple independent sets method. The kernel density estimate (KDE) of numerator and denominator density is computed on multiple independent sets and the estimated densities are averaged to compute the SLR. The independent sets used to estimate the SLR function are from `KM_train` and `KNM_train`. The function then produces various output based on `KM_test`, `KNM_test`, and `unknown`.
+#' 
+#' `KM_train`, `KM_test`, `KNM_train`, `KNM_train` should all be data frames containing columns named `source1`, `source2`, `dep1`, and `dep2`. Any remaining columns must be scores. There may be up to five scores. 
+#' @param KM_train known matches (KM) from training dataset.
+#' @param KM_test known matches (KM) from testing dataset.
+#' @param KNM_train known non matches (KNM) from training dataset.
+#' @param KNM_test known non matches (KNM) from testing dataset.
+#' @param NUM_SETS number of independent sets to use.
+#' @param unknown data frame of scores from an unknown case. Column names should match the variable names set for scores.
+#' @returns A list containing the following components:
+#' \itemize{
+#'   \item KM_SLR - SLRs for `KM_test`.
+#'   \item KNM_SLR - SLRs for `KNM_test`.
+#'   \item threshold - optimal threshold calculated using `KM_train` and `KNM_train`.
+#'   \item new_SLR - SLRs for `unknown`.
+#'   \item ROC_values - data frame containing columns the true positive rate `tpr` and false positive rate `fpr` computed using `KM_test` and `KNM_test`.
+#' }
+#' @examples 
+#' # Set up data
+#' library(dplyr)
+#' shoedata_split <- dep_split(shoedata, 0.75)
+#' KM_train <- shoedata_split %>% filter(source1 == source2 & train == TRUE)
+#' KM_test <- shoedata_split %>% filter(source1 == source2 & train == FALSE)
+#' KNM_train <- shoedata_split %>% filter(source1 != source2 & train == TRUE)
+#' KNM_test <- shoedata_split %>% filter(source1 != source2 & train == FALSE)
+#' unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
+#'                       input_overlap = c(.01, 0.26))
+#' 
+#' multiple_kde(KM_train, KM_test, KNM_train, KNM_test, 5, unknown)
 #' @export
 multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10, 
                          unknown = NULL) {
@@ -93,6 +116,7 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
   KNM_indep_sets <- replicate(NUM_SETS, KNM_indep_set(), simplify=FALSE)
   
   # Calculating SLRs for Testing Data
+  ## need to store result
   if (nrow(KM_test) > 0) {
     KM_nums <- list()
     KM_denoms <- list()
