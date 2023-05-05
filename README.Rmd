@@ -33,17 +33,18 @@ How do you use this package?
 
 Read a dataset in that follows these requirements:
 
-```{r, eval=F}
+```{r, eval=T}
 data(shoedata)
 ```
 
 
 Then, create a train/test split that accounts for the dependencies using the `dep_split` function:
-```{r, eval=F}
+```{r, eval=T}
+# you need dplyr for this chunk - both for the pipe and the filter function
 shoedata_split <- dep_split(shoedata, 0.8, 20230413)
 
 
-KM_train <- shoedata_split %>% filter(source1 == source2 & train == TRUE) 
+KM_train <- shoedata_split %>% dplyr::filter(source1 == source2 & train == TRUE) 
 KM_test <- shoedata_split %>% filter(source1 == source2 & train == FALSE)
 
 KNM_train <- shoedata_split %>% filter(source1 != source2 & train == TRUE)
