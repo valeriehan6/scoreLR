@@ -233,10 +233,8 @@ if sources do not match, it will be labeled as a known-non match.
 <h4 id="dep_split">dep_split<a class="anchor" aria-label="anchor" href="#dep_split"></a>
 </h4>
 <p>This function creates a train/test split for datasets with
-dependencies. The resulting data will be in the form of a dataframe with
-an added column for known match(KM) and known non match. You can specify
-the train/test split proportion <code>p</code>. Note <code>p</code> is
-between 0 and 1.</p>
+dependencies. You can specify the train/test split proportion
+<code>p</code>. Note <code>p</code> is between 0 and 1.</p>
 </div>
 <div class="section level4">
 <h4 id="slr_results">slr_results<a class="anchor" aria-label="anchor" href="#slr_results"></a>
@@ -248,8 +246,8 @@ split already done.</p>
 <div class="section level4">
 <h4 id="plot_slr_roc">plot_slr_roc<a class="anchor" aria-label="anchor" href="#plot_slr_roc"></a>
 </h4>
-<p>This function plots the ROC curve for each method. The ROC curve is
-created by plotting the true positive rate against the false positive
+<p>This function plots the ROC curve for a given method. The ROC curve
+is created by plotting the true positive rate against the false positive
 rate at various threshold settings.</p>
 </div>
 <div class="section level3">
@@ -260,28 +258,30 @@ rate at various threshold settings.</p>
 </h4>
 <p>This function returns an SLR evaluation for the ignore dependence
 method. This method, like the name suggests, ignores that multivariate
-observations cannot be assumed to be independent, and implements kernel
-density estimation using all available scores.</p>
+observations cannot be assumed to be independent, and performs kernel
+density estimation (KDE) using all available scores.</p>
 </div>
 <div class="section level4">
 <h4 id="strict_indep_set">2. strict_indep_set<a class="anchor" aria-label="anchor" href="#strict_indep_set"></a>
 </h4>
 <p>This function returns a SLR evaluation for the strict independence
-set. To use this method, we construct an independent subset of the
-observations where each item only appears in one pair. The resulting
-dataset is much smaller than the original sample.</p>
+set. To use this method, we perform KDE on an independent subset of
+scores. (Note that independence here means that each source only appears
+in one pair.) The resulting dataset is much smaller than the original
+sample.</p>
 </div>
 <div class="section level4">
 <h4 id="avg_features">3. avg_features<a class="anchor" aria-label="anchor" href="#avg_features"></a>
 </h4>
 <p>This function returns a SLR evaluation for the average features
-method. This method averages over the scans that correspond to the same
-pairs. This results in an independent set of multivariate scores.</p>
+method. This method averages over the rows that correspond to the same
+pairs of sources. This results in an independent set of multivariate
+scores.</p>
 </div>
 <div class="section level4">
 <h4 id="multiple_kde">4. multiple_kde<a class="anchor" aria-label="anchor" href="#multiple_kde"></a>
 </h4>
-<p>This function returns a SLR evaluation for the multiple kde method.
+<p>This function returns a SLR evaluation for the multiple KDE method.
 This method creates multiple random independent subsets of the training
 dataset and implements KDE in each subset.</p>
 </div>
@@ -292,7 +292,9 @@ dataset and implements KDE in each subset.</p>
 <div class="section level4">
 <h4 id="opt_thresh">opt_thresh<a class="anchor" aria-label="anchor" href="#opt_thresh"></a>
 </h4>
-<p>This function returns a threshold for the SLR.</p>
+<p>This function returns an optimal threshold for the SLR. Optimality
+here is defined as minimizing the absolute difference between the true
+positive and true negative rates.</p>
 </div>
 <div class="section level4">
 <h4 id="indep_km_set">indep_km_set<a class="anchor" aria-label="anchor" href="#indep_km_set"></a>
@@ -325,8 +327,8 @@ using <code>seed</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">scoreLR</span><span class="op">)</span></span></code></pre></div>
 <p>There are a couple of ways to use this package.</p>
-<p>You can: * Use all methods to get multiple slr values * Plot ROC *
-Compare methods</p>
+<p>You can: * Use any of the methods to get SLR values * Plot the ROC
+curve of any of the methods * Compare methods</p>
 </div>
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -334,8 +336,8 @@ Compare methods</p>
 <p>First read in your data. Note your data must follow the
 specifications outlined in the data section.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"shoedata.rda"</span><span class="op">)</span></span>
-<span><span class="va">exdata</span> <span class="op">&lt;-</span> <span class="va">shoedata</span></span>
+<code class="sourceCode R"><span><span class="co"># load("shoedata.rda")</span></span>
+<span><span class="co"># exdata &lt;- shoedata</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">shoedata</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   source1 dep1 source2 dep2 clique_size med_dist_euc input_overlap</span></span>
 <span><span class="co">#&gt; 1     1_L    1     1_L    1           6      1.81890         0.218</span></span>
@@ -347,15 +349,21 @@ specifications outlined in the data section.</p>
 <p>Then you can use the dep_split function to separate your data into
 training and testing data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">exdata_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dep_split.html">dep_split</a></span><span class="op">(</span><span class="va">exdata</span>, <span class="fl">0.8</span>, <span class="fl">20230413</span><span class="op">)</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">exdata_split</span></span>
+<code class="sourceCode R"><span><span class="va">shoedata_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dep_split.html">dep_split</a></span><span class="op">(</span><span class="va">shoedata</span>, <span class="fl">0.8</span>, seed <span class="op">=</span> <span class="fl">20230413</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">KM_train</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># split based on indicator column</span></span>
-<span><span class="va">KM_test</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># split based on indicator column</span></span>
-<span><span class="co"># Filter data to rows where source1 != source2</span></span>
-<span><span class="va">KNM_train</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">!=</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">KNM_test</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">!=</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="va">KM_train</span> <span class="op">&lt;-</span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">KM_test</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">KNM_train</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">!=</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">KNM_test</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">KM_train</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   source1 dep1 source2 dep2 clique_size med_dist_euc input_overlap train</span></span>
@@ -367,29 +375,29 @@ training and testing data.</p>
 <span><span class="co">#&gt; 6     1_L    1     1_L    1          12      0.91193         0.400  TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">KNM_test</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   source1 dep1 source2 dep2 clique_size med_dist_euc input_overlap train</span></span>
-<span><span class="co">#&gt; 1     2_R    2    20_R   20           4      1.15239         0.004 FALSE</span></span>
-<span><span class="co">#&gt; 2     2_R    2    20_R   20           4      0.07300         0.010 FALSE</span></span>
-<span><span class="co">#&gt; 3     2_R    2    20_R   20           4      0.50248         0.006 FALSE</span></span>
-<span><span class="co">#&gt; 4     2_R    2    92_R   92           5      2.06821         0.008 FALSE</span></span>
-<span><span class="co">#&gt; 5     2_R    2    92_R   92           4      1.20016         0.010 FALSE</span></span>
-<span><span class="co">#&gt; 6     2_R    2    92_R   92           4      0.02181         0.004 FALSE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1     2_L    2     2_L    2           8      1.14392         0.354 FALSE</span></span>
+<span><span class="co">#&gt; 2     2_L    2     2_L    2           6      1.92381         0.298 FALSE</span></span>
+<span><span class="co">#&gt; 3     2_L    2     2_L    2           7      1.59026         0.332 FALSE</span></span>
+<span><span class="co">#&gt; 4     2_L    2     2_L    2           9      1.45471         0.222 FALSE</span></span>
+<span><span class="co">#&gt; 5     2_L    2     2_L    2           6      1.45014         0.124 FALSE</span></span>
+<span><span class="co">#&gt; 6     2_L    2     2_L    2           8      1.24844         0.466 FALSE</span></span></code></pre></div>
 <p>This output will give you four dataframes, two for your train data
-(KM and KNM) and two for your test data(KM and KNM).</p>
+(KM and KNM) and two for your test data (KM and KNM).</p>
 <p>Then you can calculate SLRs based on three methods.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ignoredep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ignore_dep.html">ignore_dep</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span><span class="op">)</span></span>
 <span><span class="va">avgfeatures</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/avg_features.html">avg_features</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ignoredep</span><span class="op">$</span><span class="va">KNM_SLR</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            SLR</span></span>
-<span><span class="co">#&gt; 1 0.0030314515</span></span>
-<span><span class="co">#&gt; 2 0.0003220623</span></span>
-<span><span class="co">#&gt; 3 0.0011372943</span></span>
-<span><span class="co">#&gt; 4 0.0024987138</span></span>
-<span><span class="co">#&gt; 5 0.0016595295</span></span></code></pre></div>
+<span><span class="co">#&gt;             SLR</span></span>
+<span><span class="co">#&gt; 1 1.712290e+177</span></span>
+<span><span class="co">#&gt; 2  2.264452e+91</span></span>
+<span><span class="co">#&gt; 3 1.003575e+224</span></span>
+<span><span class="co">#&gt; 4           Inf</span></span>
+<span><span class="co">#&gt; 5  6.291198e+18</span></span></code></pre></div>
 <p>The output gives you a dataframe of SLRs.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slr_results.html">slr_results</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slr_results.html">slr_results</a></span><span class="op">(</span><span class="va">shoedata_split</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">IgnoreDependence</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            SLR</span></span>
 <span><span class="co">#&gt; 1 0.0030314515</span></span>
@@ -398,21 +406,37 @@ training and testing data.</p>
 <span><span class="co">#&gt; 4 0.0024987138</span></span>
 <span><span class="co">#&gt; 5 0.0016595295</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">StrictIndependentSet</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          SLR</span></span>
-<span><span class="co">#&gt; 1 0.01483938</span></span>
-<span><span class="co">#&gt; 2 0.00028416</span></span>
-<span><span class="co">#&gt; 3 0.01140817</span></span>
-<span><span class="co">#&gt; 4 0.03779566</span></span>
-<span><span class="co">#&gt; 5 0.01168457</span></span>
+<span><span class="co">#&gt;           SLR</span></span>
+<span><span class="co">#&gt; 1 0.005135888</span></span>
+<span><span class="co">#&gt; 2 0.011816990</span></span>
+<span><span class="co">#&gt; 3 0.001301040</span></span>
+<span><span class="co">#&gt; 4 0.029175523</span></span>
+<span><span class="co">#&gt; 5 0.005444004</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">AverageFeatures</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           SLR</span></span>
 <span><span class="co">#&gt; 1 4.53568e-09</span></span>
 <span><span class="co">#&gt; 2 1.89343e-02</span></span></code></pre></div>
 <p>The last thing you can do is plot the ROC curves.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_slr_roc.html">plot_slr_roc</a></span><span class="op">(</span><span class="va">data</span>, method <span class="op">=</span> <span class="st">"IndependentSet"</span>, num_runs <span class="op">=</span> <span class="fl">200</span>, alpha <span class="op">=</span> <span class="fl">0.1</span>, NUM_SETS <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_slr_roc.html">plot_slr_roc</a></span><span class="op">(</span><span class="va">shoedata_split</span>, method <span class="op">=</span> <span class="st">"IndependentSet"</span>, </span>
+<span>             num_runs <span class="op">=</span> <span class="fl">200</span>, alpha <span class="op">=</span> <span class="fl">0.1</span>, NUM_SETS <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p>The output gives you a ROC plot.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="future-work">Future Work<a class="anchor" aria-label="anchor" href="#future-work"></a>
+</h2>
+<p>There are a couple things we would like to implement in the
+future.</p>
+<ul>
+<li>Include the final method in Classification performance of
+score-based likelihood ratios when data exhibit various degrees of
+dependence</li>
+<li>Add more helper functions like allow for different definitions of
+optimality</li>
+<li>Enable people to upload their own data to the Shiny App</li>
+<li>Have a wrapper function</li>
+</ul>
 </div>
   </div>
 
