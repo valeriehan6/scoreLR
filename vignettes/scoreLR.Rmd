@@ -187,6 +187,7 @@ KNM_test <- dplyr::filter(shoedata_split, source1 == source2 & train == FALSE)
 # Ignoring dependence method
 ignoredep <- ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
 ```
+
 You can extract the SLR values for `KM_test` and `KNM_test` from the output. Note that you can calculate the accuracy and other performance metrics by specifying a threshold (e.g., 1 or the optimal threshold calculated from the training data).
 ```{r}
 # KM and KNM SLR values for the test data
@@ -216,7 +217,7 @@ rwme <- (sum(KM_SLR_test < 100) + sum(KNM_SLR_test > 1/100))/
 
 You can also plot the ROC curves using `plot_slr_roc`. Due to randomness in the train/test split and in choosing independent sets, each run may produce a different ROC curve, so we allow the user to plot multiple runs. `alpha` corresponds to the transparency parameter in the `ggplot2` package. Increase `alpha` if the lines are too faint.
 ```{r}
-plot_slr_roc(shoedata_split, method = "IgnoreDependence", 
+plot_slr_roc(shoedata, p = 0.75, method = "IgnoreDependence", 
              num_runs = 20, alpha = 0.1)
 ```
 

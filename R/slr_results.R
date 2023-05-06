@@ -43,7 +43,7 @@ slr_results <- function(data, unknown = NULL,
   }
   
   assertthat::assert_that(ncol(data) <= 10, msg = "Error: the number of score columns must be less than or equal to 5")
-  assertthat::assert_that(ncol(data %>% select(-c(.data$source1, .data$dep1, .data$source2, .data$dep2, .data$train))) == ncol(data %>% select(-c(.data$source1, .data$dep1, .data$source2, .data$dep2, .data$train)) %>% select_if(is.numeric)), msg = "Error: at least one of the score columns is not numeric")
+  assertthat::assert_that(ncol(data %>% select(-c("source1", "dep1", "source2", "dep2", "train"))) == ncol(data %>% select(-c("source1", "dep1", "source2", "dep2", "train")) %>% select_if(is.numeric)), msg = "Error: at least one of the score columns is not numeric")
   
   # match.arg to select method
   method1 <- match.arg(method, choices = c("IgnoreDependence", "StrictIndependentSet",

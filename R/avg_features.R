@@ -61,40 +61,40 @@ avg_features <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL)
   ## Create average features df
   avg_KM_train <- KM_train %>%
     group_by(.data$source1) %>% 
-    summarize(across(where(is.numeric)  & !.data$source2 & !.data$dep1 & !.data$dep2 &!.data$train, mean), 
+    summarize(across(-c("dep1", "source2", "dep2", "train"), mean), 
             n = n(), .groups="drop")
   
   avg_KM_test <- KM_test %>%
     group_by(.data$source1) %>% 
-    summarize(across(where(is.numeric)  & !.data$source2 & !.data$dep1 & !.data$dep2 &!.data$train, mean), 
+    summarize(across(-c("dep1", "source2", "dep2", "train"), mean), 
             n = n(), .groups="drop")
   
   SURF_KM <- avg_KM_train %>%
-    select(-c(.data$source1, .data$n)) %>% 
+    select(-c("source1", "n")) %>% 
     data.matrix()
   
   SURF_KM_test <- avg_KM_test %>%
-    select(-c(.data$source1, .data$n)) %>%
+    select(-c("source1", "n")) %>%
     data.matrix()
   
   # KNM
   ## Create average features df
   avg_KNM_train <- KNM_train %>%
     group_by(.data$source1, .data$source2) %>% 
-    summarize(across(where(is.numeric) & !.data$dep1 & !.data$dep2 &!.data$train, mean), 
+    summarize(across(-c("dep1", "dep2", "train"), mean), 
             n = n(), .groups="drop")
   
   avg_KNM_test <- KNM_test %>%
     group_by(.data$source1, .data$source2) %>% 
-    summarize(across(where(is.numeric) & !.data$dep1 & !.data$dep2 &!.data$train, mean), 
+    summarize(across(-c("dep1", "dep2", "train"), mean), 
             n = n(), .groups="drop")
 
   SURF_KNM <- avg_KNM_train %>%
-    select(-c(.data$source1, .data$source2, .data$n)) %>% # use select minus
+    select(-c("source1", "source2", "n")) %>% 
     data.matrix()
   
   SURF_KNM_test <- avg_KNM_test %>%
-    select(-c(.data$source1, .data$source2, .data$n)) %>%
+    select(-c("source1", "source2", "n")) %>%
     data.matrix()
   
   
@@ -136,6 +136,9 @@ avg_features <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL)
   if ((nrow(SURF_KM_test) > 0) && (nrow(SURF_KNM_test) > 0)) {
     SLR_test <- rbind(KM_SLR_test, KNM_SLR_test)
     labels <- c(rep("KM", nrow(KM_SLR_test)), rep("KNM", nrow(KNM_SLR_test)))
+    
+    if (length(unique(labels)) != 2) warning("labels = ", (unique(labels)))
+    
     pred <- prediction(SLR_test, labels)
     roc <- performance(pred, "tpr", "fpr")
     roc_df <- data.frame(tpr = roc@x.values[[1]], 

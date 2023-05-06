@@ -6,6 +6,7 @@
 \usage{
 plot_slr_roc(
   data,
+  p,
   method = "AverageFeatures",
   num_runs = 200,
   alpha = 0.1,
@@ -14,7 +15,9 @@ plot_slr_roc(
 )
 }
 \arguments{
-\item{data}{data frame containing columns named \code{source1}, \code{source2}, \code{dep1},  \code{dep2}, and \code{train}. The \code{train} column should be a logical vector with \code{TRUE} denoting the training set and \code{FALSE} the test set. Any remaining columns must be scores. There may be up to five scores.}
+\item{data}{data frame containing columns named \code{source1}, \code{source2}, \code{dep1},  and \code{dep2}. Any remaining columns must be scores. There may be up to five scores.}
+
+\item{p}{training/testing split percentage. Should be between 0 and 1.}
 
 \item{method}{string. Options are "IgnoreDependence", "StrictIndependentSet", "AverageFeatures", and "MultipleKDE".}
 
@@ -33,11 +36,8 @@ plot of selected method.
 This function returns a plot of the ROC curves produced by \code{num_runs} times of running \code{\link[=slr_results]{slr_results()}}. Note that this function only supports plotting one method at a time.
 }
 \examples{
-# Set up
-shoedata_split <- dep_split(shoedata, 0.75)
-
-plot_slr_roc(shoedata_split, method = "StrictIndependentSet", num_runs = 3,
-             alpha = 0.5)
+plot_slr_roc(shoedata, p = 0.75, method = "StrictIndependentSet", 
+             num_runs = 3, alpha = 0.5)
 }
 \seealso{
 \code{\link[=ignore_dep]{ignore_dep()}} for "IgnoreDependence" method, \code{\link[=strict_indep_set]{strict_indep_set()}} for "StrictIndependentSet" method, \code{\link[=avg_features]{avg_features()}} for "AverageFeatures" method, and \code{\link[=multiple_kde]{multiple_kde()}} for "MultipleKDE" method.

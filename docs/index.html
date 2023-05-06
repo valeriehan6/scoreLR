@@ -90,27 +90,51 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>How do you use this package?</p>
-<p>Read a dataset in that follows these requirements:</p>
+<p>Read a dataset in that has the following columns:</p>
+<ul>
+<li>
+<code>source1</code>: shoe identifier for the first shoe, left (L) or right (R)</li>
+<li>
+<code>dep1</code>: pair identifier for the first shoe</li>
+<li>
+<code>source2</code>: shoe identifier for the second shoe, left (L) or right
+<ol start="18" style="list-style-type: upper-alpha"><li>
+</li></ol>
+</li>
+<li>
+<code>dep2</code>: pair identifier for the second shoe</li>
+<li>up to five columns of similarity/dissimilarity scores. These do not have to be named something specific.</li>
+</ul>
+<p>The following shoeprint dataset is included in the package:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">shoedata</span><span class="op">)</span></span></code></pre></div>
-<p>Then, create a train/test split that accounts for the dependencies using the <code>dep_split</code> function:</p>
+<p>Create a train/test split that accounts for the dependencies using the <code>dep_split</code> function:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shoedata_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dep_split.html">dep_split</a></span><span class="op">(</span><span class="va">shoedata</span>, <span class="fl">0.8</span>, <span class="fl">20230413</span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span><span class="va">KM_train</span> <span class="op">&lt;-</span> <span class="va">shoedata_split</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
-<span><span class="va">KM_test</span> <span class="op">&lt;-</span> <span class="va">shoedata_split</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">KNM_train</span> <span class="op">&lt;-</span> <span class="va">shoedata_split</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">!=</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">KNM_test</span> <span class="op">&lt;-</span> <span class="va">shoedata_split</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source1</span> <span class="op">!=</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">shoedata_split</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">##   source1 dep1 source2 dep2 clique_size med_dist_euc input_overlap train</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 1     1_L    1     1_L    1           6      1.81890         0.218  TRUE</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 2     1_L    1     1_L    1           6      1.41041         0.200  TRUE</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 3     1_L    1     1_L    1           6      1.80102         0.102  TRUE</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 4     1_L    1     1_L    1           8      1.08331         0.258  TRUE</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 5     1_L    1     1_L    1           5      1.93781         0.008  TRUE</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 6     1_L    1     1_L    1          12      0.91193         0.400  TRUE</span></span></code></pre></div>
 <p>Calculate SLRs based on various methods:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/ignore_dep.html">ignore_dep</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Split data first</span></span>
+<span><span class="va">KM_train</span> <span class="op">&lt;-</span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">KM_test</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">KNM_train</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">!=</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">KNM_test</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">source1</span> <span class="op">==</span> <span class="va">source2</span> <span class="op">&amp;</span> <span class="va">train</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># method functions</span></span>
+<span><span class="fu"><a href="reference/ignore_dep.html">ignore_dep</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/strict_indep_set.html">strict_indep_set</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/avg_features.html">avg_features</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/multiple_kde.html">multiple_kde</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span><span class="op">)</span></span></code></pre></div>
-<p>You can do it all in one step with the <code>slr_results</code> function:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>You can do it all in one step with the <code>slr_results</code> function after doing that train/test split.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/slr_results.html">slr_results</a></span><span class="op">(</span><span class="va">shoedata_split</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">

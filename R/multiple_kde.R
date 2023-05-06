@@ -147,16 +147,16 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
     KNM_train <- sorted_KNM_features[KNM_indep_sets[[i]],]
     
     SURF_KM <- KM_train %>%
-      select(-c(.data$source1, .data$dep1, .data$source2, .data$dep2, .data$train)) %>% 
+      select(-c("source1", "dep1", "source2", "dep2", "train")) %>% 
       data.matrix()
     SURF_KNM <- KNM_train %>%
-      select(-c(.data$source1, .data$dep1, .data$source2, .data$dep2, .data$train)) %>% 
+      select(-c("source1", "dep1", "source2", "dep2", "train")) %>% 
       data.matrix()
     SURF_KM_test <- KM_test %>%
-        select(-c(.data$source1, .data$dep1, .data$source2, .data$dep2, .data$train)) %>% 
+        select(-c("source1", "dep1", "source2", "dep2", "train")) %>% 
         data.matrix()
     SURF_KNM_test <- KNM_test %>%
-        select(-c(.data$source1, .data$dep1, .data$source2, .data$dep2, .data$train)) %>% 
+        select(-c("source1", "dep1", "source2", "dep2", "train")) %>% 
         data.matrix()
     
     # Make sure column names match
@@ -247,6 +247,9 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
   if ((nrow(KM_test) > 0) && (nrow(KNM_test) > 0)) {
     SLR_test <- rbind(KM_SLR_test, KNM_SLR_test)
     labels <- c(rep("KM", nrow(KM_SLR_test)), rep("KNM", nrow(KNM_SLR_test)))
+    
+    if (length(unique(labels)) != 2) warning("labels = ", (unique(labels)))
+    
     pred <- prediction(SLR_test, labels)
     roc <- performance(pred, "tpr", "fpr")
     roc_df <- data.frame(tpr = roc@x.values[[1]], 
