@@ -388,9 +388,11 @@ testthat::test_that("slr_results works", {
 
 
 testthat::test_that("plot_slr_roc works", {
-  # data(shoedata)
-  shoedata_split <- dep_split(data = shoedata, p = 0.8, seed = 585)
-  testthat::expect_error(plot_slr_roc(shoedata_split, method = c("IgnoreDependence", "AverageFeatures")))
-  testthat::expect_type(plot_slr_roc(shoedata_split, method = "IgnoreDependence", num_runs = 5), "list")
+  testthat::expect_error(plot_slr_roc(shoedata, p = .5,
+                                      method = c("IgnoreDependence", 
+                                                 "AverageFeatures")))
+  testthat::expect_type(plot_slr_roc(shoedata, p = .5,
+                                     method = "IgnoreDependence", num_runs = 5), 
+                        "list")
 })
 

@@ -133,6 +133,7 @@ strict_indep_set <- function(KM_train, KM_test, KNM_train, KNM_test,
     roc_df <- data.frame(tpr = roc@x.values[[1]], 
                          fpr = roc@y.values[[1]])
   } else {
+    warning("ROC_values not calculated", nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test))
     roc_df = NA
   }
    

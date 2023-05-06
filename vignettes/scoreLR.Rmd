@@ -159,7 +159,7 @@ head(shoedata)
 
 Then, you can use the `dep_split` function to separate your data into training and test data. 
 ```{r}
-shoedata_split <- dep_split(shoedata, 0.75, seed = 20230413)
+shoedata_split <- dep_split(shoedata, 0.75, seed = 20230506)
 head(shoedata_split)
 ```
 
