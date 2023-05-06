@@ -1,8 +1,8 @@
 ---
-title: "ScoreLR"
+title: "scoreLR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ScoreLR}
+  %\VignetteIndexEntry{scoreLR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -84,7 +84,7 @@ This package has seven main functions and three helper functions.
 This function creates a train/test split for datasets with dependencies. You can specify the train/test split proportion `p`. Note `p` is between 0 and 1. 
 
 ### slr_results
-This function is essentially a wrapper function that computes the results of various methods given a dataframe with the training/testing split already done.
+This function is essentially a wrapper function that computes the results of various methods given a dataframe with the train/test split already done.
 
 ### plot_slr_roc
 This function plots the ROC curve for a given method. The ROC curve is created by plotting the true positive rate against the false positive rate at various threshold settings.
@@ -150,61 +150,87 @@ You can:
 ## Example
 
 First read in your data. Note your data must follow the specifications outlined in the data section. 
+
+The dataset included in the package `shoedata` is displayed below.
 ```{r}
-# load("shoedata.rda")
-# exdata <- shoedata
 head(shoedata)
 ```
 
 
-Then you can use the dep_split function to separate your data into training and testing data. 
+Then, you can use the `dep_split` function to separate your data into training and test data. 
 ```{r}
-shoedata_split <- dep_split(shoedata, 0.8, seed = 20230413)
+shoedata_split <- dep_split(shoedata, 0.75, seed = 20230413)
+head(shoedata_split)
+```
 
-library(dplyr)
+
+Then you can calculate SLRs based on any of the four methods by specifying which of the four methods you'd like to run. The default is all four methods. We display this below.
+```{r}
+results <- slr_results(shoedata_split, 
+                       method = c("IgnoreDependence", "StrictIndependentSet",
+                                  "AverageFeatures", "MultipleKDE"))
+
+str(results)
+```
+
+The output gives you a list. Each element corresponds to the output of the corresponding method function. 
+
+You can also choose to run the method itself after splitting the data by training/test sets and KM/KNM.
+
+```{r}
+# Split data
 KM_train <-  dplyr::filter(shoedata_split, source1 == source2 & train == TRUE)
 KM_test <- dplyr::filter(shoedata_split, source1 == source2 & train == FALSE)
 KNM_train <- dplyr::filter(shoedata_split, source1 != source2 & train == TRUE)
 KNM_test <- dplyr::filter(shoedata_split, source1 == source2 & train == FALSE)
 
-head(KM_train)
-head(KNM_test)
-```
-
-
-
-This output will give you four dataframes, two for your train data (KM and KNM) and two for your test data (KM and KNM).
-
-
-
-Then you can calculate SLRs based on three methods. 
-```{r}
+# Ignoring dependence method
 ignoredep <- ignore_dep(KM_train, KM_test, KNM_train, KNM_test)
-avgfeatures <- avg_features(KM_train, KM_test, KNM_train, KNM_test)
-
-head(ignoredep$KNM_SLR, 5)
-
 ```
-
-The output gives you a dataframe of SLRs. 
-
-
+You can extract the SLR values for `KM_test` and `KNM_test` from the output. Note that you can calculate the accuracy and other performance metrics by specifying a threshold (e.g., 1 or the optimal threshold calculated from the training data).
 ```{r}
-results <- slr_results(shoedata_split)
-head(results$IgnoreDependence[[2]], 5)
-head(results$StrictIndependentSet[[2]], 5)
-head(results$AverageFeatures[[2]], 5)
+# KM and KNM SLR values for the test data
+KM_SLR_test <- ignoredep$KM_SLR
+KNM_SLR_test <- ignoredep$KNM_SLR
 
+# optimal threshold
+thresh <- ignoredep$threshold
+
+# accuracy
+tp <- (KM_SLR_test > thresh)
+tn <- (KNM_SLR_test < thresh)
+accuracy <- (sum(tp) + sum(tn))/(length(tp) + length(tn))
+
+# true positive rate
+tpr <- sum(tp)/length(tp)
+
+# true negative rate
+tnr <- sum(tn)/length(tn)
+
+# rate of weak/misleading evidence
+rwme <- (sum(KM_SLR_test < 100) + sum(KNM_SLR_test > 1/100))/
+  (nrow(KM_SLR_test) + nrow(KNM_SLR_test)) 
+# you can choose to use a value other than 100
 ```
 
 
-The last thing you can do is plot the ROC curves. 
-```{r, eval=FALSE}
-plot_slr_roc(shoedata_split, method = "IndependentSet", 
-             num_runs = 200, alpha = 0.1, NUM_SETS = 10, seed = NULL)
+You can also plot the ROC curves using `plot_slr_roc`. Due to randomness in the train/test split and in choosing independent sets, each run may produce a different ROC curve, so we allow the user to plot multiple runs. `alpha` corresponds to the transparency parameter in the `ggplot2` package. Increase `alpha` if the lines are too faint.
+```{r}
+plot_slr_roc(shoedata_split, method = "IgnoreDependence", 
+             num_runs = 20, alpha = 0.1)
 ```
 
-The output gives you a ROC plot. 
+The method functions and `slr_results` can also estimate the SLR for data where the ground truth is unknown as long as training data is provided. 
+```{r}
+# example unknown data
+unknown <- data.frame(clique_size = c(5, 8), med_dist_euc = c(1.9, 1.1), 
+                      input_overlap = c(.01, 0.26))
+
+res <- strict_indep_set(KM_train, KM_test, KNM_train, KNM_test, unknown)
+
+res$new_SLR
+```
+
 
 
 
@@ -212,8 +238,8 @@ The output gives you a ROC plot.
 
 There are a couple things we would like to implement in the future. 
 
-* Include the final method in Classification performance of score-based likelihood ratios when data exhibit various
-degrees of dependence
-* Add more helper functions like allow for different definitions of optimality
-* Enable people to upload their own data to the Shiny App
-* Have a wrapper function
+* Include the final method in Classification performance of score-based likelihood ratios when data exhibit various degrees of dependence.
+* Allow for different definitions of optimality.
+* Add more helper functions since the method functions have a lot of code in common.
+* Enable people to upload their own data to the Shiny App.
+* Have a wrapper function that allows users to input data that doesn't have the column names we specify here.
