@@ -35,3 +35,4 @@ Config/testthat/edition: 3
 LitrVersionUsed: 0.7.0
 LitrId: 96fdd430c16d0363e9f0e60640510b46
 VignetteBuilder: knitr
+URL: https://valeriehan6.github.io/scoreLR/
