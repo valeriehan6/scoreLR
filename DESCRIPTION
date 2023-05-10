@@ -22,6 +22,7 @@ Imports:
     rlang,
     ROCR,
     shiny,
+    shinybusy,
     tidyselect
 Depends: 
     R (>= 2.10)
