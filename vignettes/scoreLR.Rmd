@@ -216,7 +216,7 @@ rwme <- (sum(KM_SLR_test < 100) + sum(KNM_SLR_test > 1/100))/
 
 
 You can also plot the ROC curves using `plot_slr_roc`. Due to randomness in the train/test split and in choosing independent sets, each run may produce a different ROC curve, so we allow the user to plot multiple runs. `alpha` corresponds to the transparency parameter in the `ggplot2` package. Increase `alpha` if the lines are too faint.
-```{r}
+```{r, eval=F}
 plot_slr_roc(shoedata, p = 0.75, method = "IgnoreDependence", 
              num_runs = 20, alpha = 0.1)
 ```
