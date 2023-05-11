@@ -370,14 +370,14 @@ all four methods. We display this below.</p>
 <span><span class="co">#&gt;   .. ..$ fpr: num [1:63] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ StrictIndependentSet:List of 5</span></span>
 <span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   36 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:36] 1.24e+17 5.19e+33 1.54e+09 5.87e+43 2.10e-02 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:36] 8.37e+187 3.32e+81 6.22e+19 Inf 3.88e-02 ...</span></span>
 <span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   32 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:32] 0.014155 0.01413 0.000261 0.031077 0.084366 ...</span></span>
-<span><span class="co">#&gt;   ..$ threshold : num 0.113</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:32] 2.37e-05 1.14e-04 1.09e-08 2.63e-02 5.88e-02 ...</span></span>
+<span><span class="co">#&gt;   ..$ threshold : num 0.0562</span></span>
 <span><span class="co">#&gt;   ..$ new_SLR   : logi NA</span></span>
-<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   69 obs. of  2 variables:</span></span>
-<span><span class="co">#&gt;   .. ..$ tpr: num [1:69] 0 0.0278 0.0556 0.0833 0.1111 ...</span></span>
-<span><span class="co">#&gt;   .. ..$ fpr: num [1:69] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   64 obs. of  2 variables:</span></span>
+<span><span class="co">#&gt;   .. ..$ tpr: num [1:64] 0 0.0323 0.0645 0.0968 0.129 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ fpr: num [1:64] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ AverageFeatures     :List of 5</span></span>
 <span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   6 obs. of  1 variable:</span></span>
 <span><span class="co">#&gt;   .. ..$ SLR: num [1:6] 3.06e+103 2.35e+17 2.25e+208 2.51e+19 Inf ...</span></span>
@@ -390,10 +390,10 @@ all four methods. We display this below.</p>
 <span><span class="co">#&gt;   .. ..$ fpr: num [1:8] 0 0 0 0 0 0 0.5 1</span></span>
 <span><span class="co">#&gt;  $ MultipleKDE         :List of 5</span></span>
 <span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   36 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:36] 1.36e+17 6.49e+32 3.06e+15 5.14e+40 1.60e-02 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:36] 4.05e+13 2.96e+29 5.08e+11 5.16e+33 2.63e-02 ...</span></span>
 <span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   32 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:32] 0.00946 0.007 0.00449 0.01284 0.02834 ...</span></span>
-<span><span class="co">#&gt;   ..$ threshold : num 0.0214</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:32] 0.01241 0.00738 0.00694 0.01798 0.03705 ...</span></span>
+<span><span class="co">#&gt;   ..$ threshold : num 0.029</span></span>
 <span><span class="co">#&gt;   ..$ new_SLR   : logi NA</span></span>
 <span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   69 obs. of  2 variables:</span></span>
 <span><span class="co">#&gt;   .. ..$ tpr: num [1:69] 0 0.0278 0.0556 0.0833 0.1111 ...</span></span>
@@ -458,9 +458,9 @@ data is provided.</p>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/strict_indep_set.html">strict_indep_set</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span>, <span class="va">unknown</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">res</span><span class="op">$</span><span class="va">new_SLR</span></span>
-<span><span class="co">#&gt;            SLR</span></span>
-<span><span class="co">#&gt; 1 7.472653e-02</span></span>
-<span><span class="co">#&gt; 2 2.078067e+80</span></span></code></pre></div>
+<span><span class="co">#&gt;          SLR</span></span>
+<span><span class="co">#&gt; 1 0.01041774</span></span>
+<span><span class="co">#&gt; 2        Inf</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
