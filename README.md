@@ -31,8 +31,8 @@ Read a dataset in that has the following columns:
 
 -   `source1`: shoe identifier for the first shoe, left (L) or right (R)
 -   `dep1`: pair identifier for the first shoe
--   `source2`: shoe identifier for the second shoe, left (L) or right
-    (R)
+-   `source2`: shoe identifier for the second shoe, left (L) or
+    right (R)
 -   `dep2`: pair identifier for the second shoe
 -   up to five columns of similarity/dissimilarity scores. These do not
     have to be named something specific.
