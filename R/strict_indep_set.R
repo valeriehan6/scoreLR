@@ -128,13 +128,19 @@ strict_indep_set <- function(KM_train, KM_test, KNM_train, KNM_test,
     
     if (length(unique(labels)) != 2) warning("labels = ", (unique(labels)))
     
-    pred <- prediction(SLR_test, labels)
-    roc <- performance(pred, "tpr", "fpr")
-    roc_df <- data.frame(tpr = roc@x.values[[1]], 
-                         fpr = roc@y.values[[1]])
+    roc_df <- tryCatch({
+      pred <- prediction(SLR_test, labels)
+      roc <- performance(pred, "tpr", "fpr")
+      data.frame(tpr = roc@x.values[[1]], fpr = roc@y.values[[1]])
+      }, error = function(e) {
+               NA
+               print(paste0("ROC_values not calculated", 
+                     nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test)))
+             })
   } else {
-    warning("ROC_values not calculated", nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test))
-    roc_df = NA
+    print(paste0("ROC_values not calculated", 
+                 nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test)))
+    roc_df <- NA
   }
    
   

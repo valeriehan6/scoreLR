@@ -25,7 +25,7 @@ testthat::test_that("dep_split works", {
   testthat::expect_s3_class(train.8, c("sf","tbl_df", "tbl", "data.frame"))
   
   # Correct dimensions
-  testthat::expect_equal(dim(train.8), c(926, 8))
+  testthat::expect_equal(dim(train.8), c(nrow(shoedata), ncol(shoedata) + 1))
   
   # Correct column names
   testthat::expect_named(train.8, c("source1", "dep1", "source2", "dep2", 
@@ -55,7 +55,7 @@ testthat::test_that("dep_split works", {
   
   train.1 <- dep_split(data = shoedata, p = 1, seed = 585)
   num_T <- sum(train.1$train)
-  testthat::expect_equal(num_T, 926)
+  testthat::expect_equal(num_T, nrow(shoedata))
   
 })
 
@@ -376,12 +376,14 @@ testthat::test_that("slr_results works", {
   testthat::expect_error(slr_results(shoedata_split_factor)) # check that score columns are numeric
   
   testthat::expect_error(slr_results(shoedata_split, method = "OLS")) # check wrong method
-  testthat::expect_warning(slr_results(shoedata_split, method = c("AverageFeatures", "OLS"))) # check for warning
+  testthat::expect_warning(slr_results(shoedata_split, 
+                                       method = c("AverageFeatures", "OLS"))) # check for warning
   
   slr_results_output_mult <- slr_results(shoedata_split)
   testthat::expect_type(slr_results_output_mult, "list")
-  testthat::expect_named(slr_results_output_mult, c("IgnoreDependence", "StrictIndependentSet",
-                                                 "AverageFeatures", "MultipleKDE" ))
+  testthat::expect_named(slr_results_output_mult, 
+                         c("IgnoreDependence", "StrictIndependentSet",
+                           "AverageFeatures", "MultipleKDE" ))
   
   
 })

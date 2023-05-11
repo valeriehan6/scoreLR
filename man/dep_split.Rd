@@ -17,7 +17,8 @@ dep_split(data, p, seed = NULL)
 a data frame with the same columns as the input \code{data} data frame with an additional \code{train} column.
 }
 \description{
-This function creates a column assigning rows to either the training or testing set. p*100\% of the KNM pairs of dependencies are assigned to the training set.
+This function creates a column assigning rows to either the training or testing set. Approximately p*100\% of the KNM dependencies are assigned to the training set.
+Note that this assumes that the KM and KNM data include the same sources/dependencies and that KNM data always includes pairs of dependencies in the same order.
 }
 \examples{
 head(dep_split(shoedata, .75))

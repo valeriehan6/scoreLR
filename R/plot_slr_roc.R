@@ -31,37 +31,43 @@ plot_slr_roc <- function(data, p, method = "AverageFeatures", num_runs = 200,
   
   roc <- lapply(1:num_runs, 
                 function(i) {
-                  data_split <- dep_split(data, p)
-                  roc <- slr_results(data_split, unknown = NULL, method = method, 
-                                     NUM_SETS = NUM_SETS)[[1]]$ROC_values
+                  good_split <- FALSE
                   
-                  tryCatch(data.frame(rep = rep(i, nrow(roc)), tpr = roc$tpr, 
-                                      fpr = roc$fpr),
-                    #if an error occurs, tell me the error
-                    error=function(e) {
-                      message('An Error Occurred')
-                      print(roc)
-                      print(e)
-                    },
-                    #if a warning occurs, tell me the warning
-                    warning=function(w) {
-                      message('A Warning Occurred')
-                      print(roc)
-                      print(w)
-                      return(NA)
+                  while (!good_split) {
+                    data_split <- dep_split(data, p)
+                    
+                    KM_train <- data_split %>% 
+                      filter(.data$source1 == .data$source2, .data$train == TRUE)
+                    KM_test <- data_split %>% 
+                      filter(.data$source1 == .data$source2, .data$train == FALSE)
+                    KNM_train <- data_split %>% 
+                      filter(.data$source1 != .data$source2, .data$train == TRUE)
+                    KNM_test <- data_split %>% 
+                      filter(.data$source1 != .data$source2, .data$train == FALSE)
+                    
+                    if (nrow(KM_train)!=0 & nrow(KNM_train)!=0 & 
+                        nrow(KM_test)!=0 & nrow(KNM_test)!=0) {
+                      roc <- slr_results(data_split, unknown = NULL, 
+                                         method = method, 
+                                         NUM_SETS = NUM_SETS)[[1]]$ROC_values
+                      roc_df <- data.frame(rep = rep(i, nrow(roc)), 
+                                           tpr = roc$tpr, 
+                                           fpr = roc$fpr)
+                      if (!is.null(roc_df)) {
+                        return(roc_df)
+                      }
                     }
-                  )
-                  
                   }
-                )
-  roc1 <- Reduce(function(x, y) {full_join(x,y, by = c("rep", "tpr", "fpr"))}, 
+                })
+  
+  roc1 <- Reduce(function(x, y) {full_join(x, y, by = c("rep", "tpr", "fpr"))}, 
                  roc)
   
   roc1 %>%
-    ggplot(aes(x = .data$fpr, y = .data$tpr, group=.data$rep)) + 
-    geom_line(alpha=alpha) %>%
-    return() + 
-    theme_bw()
+    ggplot(aes(x = .data$fpr, y = .data$tpr, group =.data$rep)) + 
+    geom_line(alpha = alpha) + 
+    theme_bw() %>%
+    return() 
   
 }
 

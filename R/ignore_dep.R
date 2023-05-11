@@ -109,6 +109,7 @@ ignore_dep <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL) {
     KNM_SLR_test = NA
   }
   
+  
   # Calculating ROC curve for Testing Data
   if ((nrow(SURF_KM_test) > 0) && (nrow(SURF_KNM_test) > 0)) {
     SLR_test <- rbind(KM_SLR_test, KNM_SLR_test)
@@ -116,13 +117,19 @@ ignore_dep <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL) {
     
     if (length(unique(labels)) != 2) warning("labels = ", (unique(labels)))
     
-    pred <- prediction(SLR_test, labels)
-    roc <- performance(pred, "tpr", "fpr")
-    roc_df <- data.frame(tpr = roc@x.values[[1]], 
-                         fpr = roc@y.values[[1]])
+    roc_df <- tryCatch({
+      pred <- prediction(SLR_test, labels)
+      roc <- performance(pred, "tpr", "fpr")
+      data.frame(tpr = roc@x.values[[1]], fpr = roc@y.values[[1]])
+      }, error = function(e) {
+               NA
+               print(paste0("ROC_values not calculated", 
+                     nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test)))
+             })
   } else {
-    warning("ROC_values not calculated", nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test))
-    roc_df = NA
+    print(paste0("ROC_values not calculated", 
+                 nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test)))
+    roc_df <- NA
   }
   
   # Calculating Threshold for Classification (using only training data)
