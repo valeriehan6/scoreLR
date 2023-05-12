@@ -334,7 +334,8 @@ testthat::test_that("multiple_kde works", {
   KNM_train <- shoedata_split %>% filter(source1 != source2 & train == TRUE)
   KNM_test <- shoedata_split %>% filter(source1 != source2 & train == FALSE)
   
-  multiple_kde_output_mult <- multiple_kde(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 12, 
+  multiple_kde_output_mult <- multiple_kde(KM_train, KM_test, KNM_train, KNM_test, 
+                                           NUM_SETS = 12, 
                                            unknown = NULL)
   test.method(multiple_kde_output_mult, new_SLR_NA = T)
   

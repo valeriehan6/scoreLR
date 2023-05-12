@@ -181,15 +181,19 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
     # Calculating numerators and denominators for Testing data
     if (nrow(KM_test) > 0) {
       
-      KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM_test)$estimate
-      KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM_test)$estimate
+      KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM_test,
+                  density=T)$estimate
+      KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM_test,
+                  density=T)$estimate
       KM_nums[[length(KM_nums) + 1]] <- KM_num
       KM_denoms[[length(KM_denoms) + 1]] <- KM_denom
     } 
     if (nrow(KNM_test) > 0) {
       
-      KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM_test)$estimate
-      KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM_test)$estimate
+      KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM_test,
+                  density=T)$estimate
+      KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM_test,
+                  density=T)$estimate
       KNM_nums[[length(KNM_nums) + 1]] <- KNM_num
       KNM_denoms[[length(KNM_denoms) + 1]] <- KNM_denom
     }
@@ -198,12 +202,16 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
     # Calculating Threshold for Classification (using only training data)
     
     # KM numerator and denominator for SLR
-    KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM)$estimate
-    KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM)$estimate
+    KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM,
+                  density=T)$estimate
+    KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM,
+                  density=T)$estimate
     
     # KNM numerator and denominator for SLR
-    KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM)$estimate
-    KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM)$estimate
+    KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM,
+                  density=T)$estimate
+    KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM,
+                  density=T)$estimate
     
     KM_nums_train[[length(KM_nums_train) + 1]] <- KM_num
     KM_denoms_train[[length(KM_denoms_train) + 1]] <- KM_denom
@@ -218,8 +226,10 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
         select(all_of(scores)) %>%
         data.matrix()
       
-      num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = new_cases)$estimate
-      denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = new_cases)$estimate
+      num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = new_cases,
+                  density=T)$estimate
+      denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = new_cases,
+                  density=T)$estimate
       
         
       new_nums[[length(new_nums) + 1]] <- num

@@ -91,8 +91,10 @@ ignore_dep <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL) {
   # Calculating SLRs for Testing Data
   # KM numerator and denominator for SLR
   if (nrow(SURF_KM_test) > 0) {
-  KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM_test)$estimate
-  KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM_test)$estimate
+  KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM_test, 
+                density=T)$estimate
+  KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM_test,
+                  density=T)$estimate
   KM_SLR_test <- data.frame(KM_num/KM_denom)
   names(KM_SLR_test) <- c("SLR")
   } else {
@@ -101,8 +103,10 @@ ignore_dep <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL) {
   
   # KNM numerator and denominator for SLR
   if (nrow(SURF_KNM_test) > 0) {
-  KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM_test)$estimate
-  KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM_test)$estimate
+  KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM_test,
+                  density=T)$estimate
+  KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM_test,
+                  density=T)$estimate
   KNM_SLR_test <- data.frame(KNM_num/KNM_denom)
   names(KNM_SLR_test) <- c("SLR")
   } else {
@@ -134,14 +138,18 @@ ignore_dep <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL) {
   
   # Calculating Threshold for Classification (using only training data)
   # KM numerator and denominator for SLR
-  KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM)$estimate
-  KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM)$estimate
+  KM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KM,
+                  density=T)$estimate
+  KM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KM,
+                  density=T)$estimate
   KM_SLR_train <- data.frame(KM_num/KM_denom)
   names(KM_SLR_train) <- c("SLR")
   
   # KNM numerator and denominator for SLR
-  KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM)$estimate
-  KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM)$estimate
+  KNM_num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = SURF_KNM,
+                  density=T)$estimate
+  KNM_denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = SURF_KNM,
+                  density=T)$estimate
   KNM_SLR_train <- data.frame(KNM_num/KNM_denom)
   names(KNM_SLR_train) <- c("SLR")
   
@@ -154,8 +162,10 @@ ignore_dep <- function(KM_train, KM_test, KNM_train, KNM_test, unknown = NULL) {
       select(all_of(scores)) %>%
       data.matrix()
     
-    num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = new_cases)$estimate
-    denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = new_cases)$estimate
+    num <- kde(x=SURF_KM, H=Hpi_SURF_KM, eval.points = new_cases,
+                  density=T)$estimate
+    denom <- kde(x=SURF_KNM, H=Hpi_SURF_KNM, eval.points = new_cases,
+                  density=T)$estimate
     new_cases_SLR <- data.frame(num/denom)
     names(new_cases_SLR) <- c("SLR")
   } else {
