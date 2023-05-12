@@ -18,8 +18,11 @@ ui <- fluidPage(
             and a method."),
   numericInput("num_runs", label = h3("Number of Runs"), value = 1, min = 1, max = 200),
   
-  selectizeInput(
-    "select", label = "Select Method", choices = list("Ignore Dependence" = 1, "Average Features" = 2, 
+  numericInput("p", label = h3("Training/Testing Split Proportion"), value = 0.75, min = 0, max = 1),
+  
+  numericInput("alpha", label = h3("Line Transparency"), value = 0.1, min = 0, max = 1),
+  
+  selectizeInput("select", label = h3("Select Method"), choices = list("Ignore Dependence" = 1, "Average Features" = 2, 
                                               "Independent Set" = 3, "Multiple KDE" = 4),
     options = list(
       placeholder = 'Please select a method below',
@@ -41,16 +44,20 @@ server <- function(input, output) {
   output$slrplot <- renderPlot({
 
     if(input$select==1) {
-      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "IgnoreDependence", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = input$p, method = "IgnoreDependence", 
+                        num_runs = input$num_runs, alpha = input$alpha)
     }
     if(input$select==2) {
-      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "AverageFeatures", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = input$p, method = "AverageFeatures", 
+                        num_runs = input$num_runs, alpha = input$alpha)
     }
     if(input$select==3) {
-      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "StrictIndependentSet", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = input$p, method = "StrictIndependentSet", 
+                        num_runs = input$num_runs, alpha = input$alpha)
     }
     if(input$select==4) {
-      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "MultipleKDE", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = input$p, method = "MultipleKDE", 
+                        num_runs = input$num_runs, alpha = input$alpha)
     }
     p
   })
