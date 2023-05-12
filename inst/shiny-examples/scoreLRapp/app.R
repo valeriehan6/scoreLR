@@ -14,8 +14,8 @@ ui <- fluidPage(
   
   # Application title
   titlePanel("ScoreLR App"),
-  mainPanel("Please be patient. The plotting function takes a moment to run after you select the number of runs
-            and a method."),
+  mainPanel("Please be patient. The plotting function takes a moment to run after you select the number of runs, 
+  the training/testing split proportion, the line transparency, and a method."),
   numericInput("num_runs", label = h3("Number of Runs"), value = 1, min = 1, max = 200),
   
   numericInput("p", label = h3("Training/Testing Split Proportion"), value = 0.75, min = 0, max = 1),
