@@ -41,16 +41,16 @@ server <- function(input, output) {
   output$slrplot <- renderPlot({
 
     if(input$select==1) {
-      p <- plot_slr_roc(shoedata_split, "IgnoreDependence", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "IgnoreDependence", num_runs = input$num_runs)
     }
     if(input$select==2) {
-      p <- plot_slr_roc(shoedata_split, "AverageFeatures", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "AverageFeatures", num_runs = input$num_runs)
     }
     if(input$select==3) {
-      p <- plot_slr_roc(shoedata_split, "StrictIndependentSet", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "StrictIndependentSet", num_runs = input$num_runs)
     }
     if(input$select==4) {
-      p <- plot_slr_roc(shoedata_split, "MultipleKDE", num_runs = input$num_runs)
+      p <- plot_slr_roc(data = shoedata_split, p = 0.75, method = "MultipleKDE", num_runs = input$num_runs)
     }
     p
   })
