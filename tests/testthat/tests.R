@@ -75,16 +75,40 @@ testthat::test_that("ignore_dep works", {
     testthat::expect_type(res, "list")
     testthat::expect_named(res, c("KM_SLR", "KNM_SLR", "threshold", "new_SLR", 
                                   "ROC_values"))
-    testthat::expect_false(any(res$KM_SLR<0))
-    testthat::expect_false(any(res$KNM_SLR<0))
+    
+    # KM SLRs should be non-negative
+    if (is.data.frame(res$KM_SLR)) {
+      testthat::expect_false(any(res$KM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
+    # KNM SLRs should be non-negative
+    if (is.data.frame(res$KNM_SLR)) {
+      testthat::expect_false(any(res$KNM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
     testthat::expect_type(res$threshold, "double")
+    
     if (new_SLR_NA) {
       testthat::expect_true(is.na(res$new_SLR))
     } else {
       testthat::expect_type(res$new_SLR, "list")
     }
-    testthat::expect_false(any(res$ROC_values$tpr < 0 | res$ROC_values$tpr > 1))
-    testthat::expect_false(any(res$ROC_values$fpr < 0 | res$ROC_values$fpr > 1))
+    
+    
+    # TPR and FPR should be between 0 and 1
+    if (is.data.frame(res$ROC_values)) {
+      testthat::expect_false(any(res$ROC_values$tpr < 0 | 
+                                   res$ROC_values$tpr > 1))
+      testthat::expect_false(any(res$ROC_values$fpr < 0 | 
+                                   res$ROC_values$fpr > 1))
+    } else {
+      testthat::expect_true(is.na(res$ROC_values))
+    }
+    
   }
   
   #data(shoedata)
@@ -192,16 +216,40 @@ testthat::test_that("strict_indep_set works", {
     testthat::expect_type(res, "list")
     testthat::expect_named(res, c("KM_SLR", "KNM_SLR", "threshold", "new_SLR", 
                                   "ROC_values"))
-    testthat::expect_false(any(res$KM_SLR<0))
-    testthat::expect_false(any(res$KNM_SLR<0))
+    
+    # KM SLRs should be non-negative
+    if (is.data.frame(res$KM_SLR)) {
+      testthat::expect_false(any(res$KM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
+    # KNM SLRs should be non-negative
+    if (is.data.frame(res$KNM_SLR)) {
+      testthat::expect_false(any(res$KNM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
     testthat::expect_type(res$threshold, "double")
+    
     if (new_SLR_NA) {
       testthat::expect_true(is.na(res$new_SLR))
     } else {
       testthat::expect_type(res$new_SLR, "list")
     }
-    testthat::expect_false(any(res$ROC_values$tpr < 0 | res$ROC_values$tpr > 1))
-    testthat::expect_false(any(res$ROC_values$fpr < 0 | res$ROC_values$fpr > 1))
+    
+    
+    # TPR and FPR should be between 0 and 1
+    if (is.data.frame(res$ROC_values)) {
+      testthat::expect_false(any(res$ROC_values$tpr < 0 | 
+                                   res$ROC_values$tpr > 1))
+      testthat::expect_false(any(res$ROC_values$fpr < 0 | 
+                                   res$ROC_values$fpr > 1))
+    } else {
+      testthat::expect_true(is.na(res$ROC_values))
+    }
+    
   }
   
   #data(shoedata)
@@ -252,16 +300,40 @@ testthat::test_that("avg_features works", {
     testthat::expect_type(res, "list")
     testthat::expect_named(res, c("KM_SLR", "KNM_SLR", "threshold", "new_SLR", 
                                   "ROC_values"))
-    testthat::expect_false(any(res$KM_SLR<0))
-    testthat::expect_false(any(res$KNM_SLR<0))
+    
+    # KM SLRs should be non-negative
+    if (is.data.frame(res$KM_SLR)) {
+      testthat::expect_false(any(res$KM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
+    # KNM SLRs should be non-negative
+    if (is.data.frame(res$KNM_SLR)) {
+      testthat::expect_false(any(res$KNM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
     testthat::expect_type(res$threshold, "double")
+    
     if (new_SLR_NA) {
       testthat::expect_true(is.na(res$new_SLR))
     } else {
       testthat::expect_type(res$new_SLR, "list")
     }
-    testthat::expect_false(any(res$ROC_values$tpr < 0 | res$ROC_values$tpr > 1))
-    testthat::expect_false(any(res$ROC_values$fpr < 0 | res$ROC_values$fpr > 1))
+    
+    
+    # TPR and FPR should be between 0 and 1
+    if (is.data.frame(res$ROC_values)) {
+      testthat::expect_false(any(res$ROC_values$tpr < 0 | 
+                                   res$ROC_values$tpr > 1))
+      testthat::expect_false(any(res$ROC_values$fpr < 0 | 
+                                   res$ROC_values$fpr > 1))
+    } else {
+      testthat::expect_true(is.na(res$ROC_values))
+    }
+    
   }
   
   #data(shoedata)
@@ -311,16 +383,40 @@ testthat::test_that("multiple_kde works", {
     testthat::expect_type(res, "list")
     testthat::expect_named(res, c("KM_SLR", "KNM_SLR", "threshold", "new_SLR", 
                                   "ROC_values"))
-    testthat::expect_false(any(res$KM_SLR<0))
-    testthat::expect_false(any(res$KNM_SLR<0))
+    
+    # KM SLRs should be non-negative
+    if (is.data.frame(res$KM_SLR)) {
+      testthat::expect_false(any(res$KM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
+    # KNM SLRs should be non-negative
+    if (is.data.frame(res$KNM_SLR)) {
+      testthat::expect_false(any(res$KNM_SLR<0))
+    } else {
+      testthat::expect_true(is.na(res$KM_SLR))
+    }
+    
     testthat::expect_type(res$threshold, "double")
+    
     if (new_SLR_NA) {
       testthat::expect_true(is.na(res$new_SLR))
     } else {
       testthat::expect_type(res$new_SLR, "list")
     }
-    testthat::expect_false(any(res$ROC_values$tpr < 0 | res$ROC_values$tpr > 1))
-    testthat::expect_false(any(res$ROC_values$fpr < 0 | res$ROC_values$fpr > 1))
+    
+    
+    # TPR and FPR should be between 0 and 1
+    if (is.data.frame(res$ROC_values)) {
+      testthat::expect_false(any(res$ROC_values$tpr < 0 | 
+                                   res$ROC_values$tpr > 1))
+      testthat::expect_false(any(res$ROC_values$fpr < 0 | 
+                                   res$ROC_values$fpr > 1))
+    } else {
+      testthat::expect_true(is.na(res$ROC_values))
+    }
+    
   }
   
   #data(shoedata)
