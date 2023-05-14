@@ -3,7 +3,7 @@ output: github_document
 ---
 
 <!-- [![R-CMD-check](https://github.com/valeriehan6/scoreLR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/valeriehan6/scoreLR/actions/workflows/R-CMD-check.yaml) -->
-<!-- [![Coverage status](https://codecov.io/gh/valeriehan6/scoreLR/branch/main/graph/badge.svg)](https://codecov.io/github/valeriehan6/scoreLR?branch=main) -->
+[![Codecov test coverage](https://codecov.io/gh/valeriehan6/scoreLR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/valeriehan6/scoreLR?branch=main)
 
 # scoreLR <img src="man/figures/logo.png" align="right" height="139" />
 
