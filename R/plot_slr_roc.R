@@ -50,12 +50,16 @@ plot_slr_roc <- function(data, p, method = "AverageFeatures", num_runs = 200,
                       roc <- slr_results(data_split, unknown = NULL, 
                                          method = method, 
                                          NUM_SETS = NUM_SETS)[[1]]$ROC_values
-                      roc_df <- data.frame(rep = rep(i, nrow(roc)), 
+                      
+                      if (!any(is.na(roc))) {
+                        roc_df <- data.frame(rep = rep(i, nrow(roc)), 
                                            tpr = roc$tpr, 
                                            fpr = roc$fpr)
-                      if (!is.null(roc_df)) {
-                        return(roc_df)
+                        if (!is.null(roc_df)) {
+                          return(roc_df)
+                        }
                       }
+                      
                     }
                   }
                 })

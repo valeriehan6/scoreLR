@@ -265,9 +265,9 @@ multiple_kde <- function(KM_train, KM_test, KNM_train, KNM_test, NUM_SETS = 10,
       roc <- performance(pred, "tpr", "fpr")
       data.frame(tpr = roc@x.values[[1]], fpr = roc@y.values[[1]])
       }, error = function(e) {
-               NA
                print(paste0("ROC_values not calculated", 
                      nrow(SURF_KM_test), ", ", nrow(SURF_KNM_test)))
+        return(NA)
              })
   } else {
     print(paste0("ROC_values not calculated", 
