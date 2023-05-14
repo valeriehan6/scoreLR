@@ -111,10 +111,12 @@
 <span class="r-in"><span>                      input_overlap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.01</span>, <span class="fl">0.26</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">res_all</span> <span class="op">&lt;-</span> <span class="fu">slr_results</span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">unknown</span><span class="op">)</span> <span class="co"># all methods</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ROC_values not calculated12, 14"</span>
 <span class="r-in"><span><span class="va">res_def</span> <span class="op">&lt;-</span> <span class="fu">slr_results</span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">unknown</span>,</span></span>
 <span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IgnoreDependence"</span>, <span class="st">"StrictIndependentSet"</span><span class="op">)</span><span class="op">)</span> <span class="co"># default methods</span></span></span>
 <span class="r-in"><span><span class="va">res_prop</span> <span class="op">&lt;-</span> <span class="fu">slr_results</span><span class="op">(</span><span class="va">shoedata_split</span>, <span class="va">unknown</span>, </span></span>
 <span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AverageFeatures"</span>, <span class="st">"MultipleKDE"</span><span class="op">)</span><span class="op">)</span> <span class="co"># proposed methods</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ROC_values not calculated12, 14"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
