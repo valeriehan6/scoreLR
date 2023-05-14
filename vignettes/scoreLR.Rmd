@@ -31,8 +31,9 @@ $H_d$: The shoeprints at the crime scene were made by someone else's shoe.
 ## Methods
  Given scores $s_1 .. s_k$ where each $s_i$ is computed from a pair of shoeprints, the SLR is defined as 
  
-  $$ SLR = \frac {f(s_1, . . . , s_k|H_p)} {f(s_1, . . . , s_k|H_d)}$$ where $f(s_1, . . . , s_k|H_p)$ and $f(s_1, . . . , s_k|H_d)$ are estimated densities for the scores $s_1 .. s_k$ under the two different hypotheses. Since the scores do not obviously follow any known distribution, kernel density estimation (KDE) is used to estimate the KM and KNM distributions. However, KDE assumes that the scores are independent.  Scores computed from pairs of images are not independent because images of the same shoe appear in multiple pairs. For details about the data refer to the data section. There are four proposed methods to deal with this dependence issue. The first method is to ignore the fact that the observations cannot be assumed to be independent and implement KDE using all available scores. This method is labeled `ignore_dep`. Another is to remove the dependence in the dataset that is used to estimate a KDE and to reduce the sample to the largest independent subset of pairs. We call this the `strict_indep_set`.  In the third approach, we create multiple random independent subsets of the training dataset and implement KDE in each subset. This method is called `multiple_kde`. In the last method, we average over the scans that correspond to the same pair of shoes. Here the actual pairs of shoes included in the dataset are independent. This is called `average_features`. 
-<!-- still need to read the above paragraph -->
+  $$ SLR = \frac {f(s_1, . . . , s_k|H_p)} {f(s_1, . . . , s_k|H_d)}$$ where $f(s_1, . . . , s_k|H_p)$ and $f(s_1, . . . , s_k|H_d)$ are estimated densities for the scores $s_1 .. s_k$ under the two different hypotheses. Here we use a non-parametric form of density estimation, kernel density estimation (KDE), to estimate the KM and KNM distributions. However, KDE assumes that the scores are independent. Scores computed from pairs of images are not independent because images of the same source appear in multiple pairs. 
+  
+There are four proposed methods to deal with this dependence issue. The first method is to ignore the fact that the observations cannot be assumed to be independent and implement KDE using all available scores. This method is labeled `ignore_dep`. Another is to remove the dependence in the dataset that is used to estimate a KDE and to reduce the sample to the largest independent subset of pairs. We call this the `strict_indep_set`.  In the third approach, we create multiple random independent subsets of the training dataset and implement KDE in each subset, averaging all the estimates in the end. This method is called `multiple_kde`. In the last method, we average over the scans that correspond to the same pair of shoes. This is called `average_features`. 
 
 --------
 
@@ -64,13 +65,12 @@ You can choose to import your own dataset, but it must be of a specific format w
 Your data should include:
 
 * `source1`:  identifier for the first item
-* `dep1`: pair identifier for the first item
+* `dep1`: dependence identifier for the first item
 * `source2`:  identifier for the second item
-* `dep2`: pair identifier for the second item
+* `dep2`: dependence identifier for the second item
 * You can include up to five columns of scores where each column represents a different "function" (like euclidean, basic difference, deviation, etc). These do not have to be named something specific. 
 
-If sources match, then that row will be labeled as a known match and if sources do not match, it will be labeled as a known-non match. 
-<!-- need to add something about function of dep1 and dep2 -->
+If sources match, then that row will be labeled as a known match and if sources do not match, it will be labeled as a known-non match. If dependencies match, the rows will be considered dependent. For example, in the case of shoes, the dependencies could be the shoe pair ID (e.g. 1) while the corresponding sources could be the shoe IDs of the pair (e.g. 1L, 1R).
 
 --------
  
