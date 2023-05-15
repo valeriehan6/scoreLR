@@ -343,12 +343,12 @@ your data into training and test data.</p>
 <code class="sourceCode R"><span><span class="va">shoedata_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dep_split.html">dep_split</a></span><span class="op">(</span><span class="va">shoedata</span>, <span class="fl">0.75</span>, seed <span class="op">=</span> <span class="fl">20230506</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">shoedata_split</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   source1 dep1 source2 dep2 clique_size med_dist_euc input_overlap train</span></span>
-<span><span class="co">#&gt; 1     1_L    1     1_L    1           6      1.81890         0.218  TRUE</span></span>
-<span><span class="co">#&gt; 2     1_L    1     1_L    1           6      1.41041         0.200  TRUE</span></span>
-<span><span class="co">#&gt; 3     1_L    1     1_L    1           6      1.80102         0.102  TRUE</span></span>
-<span><span class="co">#&gt; 4     1_L    1     1_L    1           8      1.08331         0.258  TRUE</span></span>
-<span><span class="co">#&gt; 5     1_L    1     1_L    1           5      1.93781         0.008  TRUE</span></span>
-<span><span class="co">#&gt; 6     1_L    1     1_L    1          12      0.91193         0.400  TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1   103_L  103   103_L  103           9      1.11631         0.420  TRUE</span></span>
+<span><span class="co">#&gt; 2   103_L  103   103_L  103           6      1.32526         0.372  TRUE</span></span>
+<span><span class="co">#&gt; 3   103_L  103   103_L  103           5      1.55036         0.186  TRUE</span></span>
+<span><span class="co">#&gt; 4   103_L  103   103_L  103          10      0.89472         0.472  TRUE</span></span>
+<span><span class="co">#&gt; 5   103_L  103   103_L  103           5      1.29865         0.006  TRUE</span></span>
+<span><span class="co">#&gt; 6   103_L  103   103_L  103           6      0.88348         0.160  TRUE</span></span></code></pre></div>
 <p>Then you can calculate SLRs based on any of the four methods by
 specifying which of the four methods you’d like to run. The default is
 all four methods. We display this below.</p>
@@ -360,45 +360,45 @@ all four methods. We display this below.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 4</span></span>
 <span><span class="co">#&gt;  $ IgnoreDependence    :List of 5</span></span>
-<span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   47 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:47] Inf 8.36e+72 4.02e+159 Inf Inf ...</span></span>
-<span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   172 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:172] 0.004077 0.001102 0.000468 0.000477 Inf ...</span></span>
-<span><span class="co">#&gt;   ..$ threshold : num 0.0222</span></span>
+<span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   45 obs. of  1 variable:</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:45] 1.32e+18 1.53e+41 6.02e-01 5.63e+221 6.05e-03 ...</span></span>
+<span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   146 obs. of  1 variable:</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:146] 1.74e-09 5.54e-04 4.44e-04 1.61e-03 1.08e-02 ...</span></span>
+<span><span class="co">#&gt;   ..$ threshold : num 0.0235</span></span>
 <span><span class="co">#&gt;   ..$ new_SLR   : logi NA</span></span>
-<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   180 obs. of  2 variables:</span></span>
-<span><span class="co">#&gt;   .. ..$ tpr: num [1:180] 0 0.0476 0.0952 0.1429 0.1905 ...</span></span>
-<span><span class="co">#&gt;   .. ..$ fpr: num [1:180] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   177 obs. of  2 variables:</span></span>
+<span><span class="co">#&gt;   .. ..$ tpr: num [1:177] 0 0.0256 0.0513 0.0769 0.1026 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ fpr: num [1:177] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ StrictIndependentSet:List of 5</span></span>
-<span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   47 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:47] 3.49e+24 1.05e+05 7.70e+06 2.39e+303 Inf ...</span></span>
-<span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   172 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:172] 2.38e-02 2.70e-02 5.30e-03 5.86e-03 5.58e+32 ...</span></span>
-<span><span class="co">#&gt;   ..$ threshold : num 0.0769</span></span>
+<span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   45 obs. of  1 variable:</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:45] 2.53e+01 1.78e+02 7.13e+01 1.37e+26 4.05e-02 ...</span></span>
+<span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   146 obs. of  1 variable:</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:146] 8.59e-10 3.02e-05 2.34e-06 7.53e-03 3.70e-02 ...</span></span>
+<span><span class="co">#&gt;   ..$ threshold : num 0.177</span></span>
 <span><span class="co">#&gt;   ..$ new_SLR   : logi NA</span></span>
-<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   206 obs. of  2 variables:</span></span>
-<span><span class="co">#&gt;   .. ..$ tpr: num [1:206] 0 0.0217 0.0435 0.0652 0.087 ...</span></span>
-<span><span class="co">#&gt;   .. ..$ fpr: num [1:206] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   183 obs. of  2 variables:</span></span>
+<span><span class="co">#&gt;   .. ..$ tpr: num [1:183] 0 0.0222 0.0444 0.0667 0.0889 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ fpr: num [1:183] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ AverageFeatures     :List of 5</span></span>
 <span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   8 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:8] Inf Inf 4.61e+163 2.12e+17 1.46e+60 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:8] 1.23e+156 2.68e+13 5.56e+260 3.07e+118 2.72e+37 ...</span></span>
 <span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   14 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:14] 0.00393 0.004522 0.000429 0.023952 3.765248 ...</span></span>
-<span><span class="co">#&gt;   ..$ threshold : num 0.152</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:14] 0.000407 0.000148 0.030895 0.032074 0.027596 ...</span></span>
+<span><span class="co">#&gt;   ..$ threshold : num 0.182</span></span>
 <span><span class="co">#&gt;   ..$ new_SLR   : logi NA</span></span>
-<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   20 obs. of  2 variables:</span></span>
-<span><span class="co">#&gt;   .. ..$ tpr: num [1:20] 0 0.2 0.4 0.6 0.8 0.8 1 1 1 1 ...</span></span>
-<span><span class="co">#&gt;   .. ..$ fpr: num [1:20] 0 0 0 0 0 ...</span></span>
+<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   23 obs. of  2 variables:</span></span>
+<span><span class="co">#&gt;   .. ..$ tpr: num [1:23] 0 0.125 0.25 0.375 0.5 0.625 0.75 0.875 1 1 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ fpr: num [1:23] 0 0 0 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ MultipleKDE         :List of 5</span></span>
-<span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   47 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:47] 3.82e+26 1.92e+06 3.13e+07 Inf Inf ...</span></span>
-<span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   172 obs. of  1 variable:</span></span>
-<span><span class="co">#&gt;   .. ..$ SLR: num [1:172] 9.56e-03 3.42e-03 8.47e-04 8.92e-04 1.73e+35 ...</span></span>
-<span><span class="co">#&gt;   ..$ threshold : num 0.0333</span></span>
+<span><span class="co">#&gt;   ..$ KM_SLR    :'data.frame':   45 obs. of  1 variable:</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:45] 1.94e+02 3.01e+03 1.46 1.13e+28 2.09e-02 ...</span></span>
+<span><span class="co">#&gt;   ..$ KNM_SLR   :'data.frame':   146 obs. of  1 variable:</span></span>
+<span><span class="co">#&gt;   .. ..$ SLR: num [1:146] 2.71e-06 9.47e-04 2.81e-04 6.46e-03 2.81e-02 ...</span></span>
+<span><span class="co">#&gt;   ..$ threshold : num 0.0717</span></span>
 <span><span class="co">#&gt;   ..$ new_SLR   : logi NA</span></span>
-<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   205 obs. of  2 variables:</span></span>
-<span><span class="co">#&gt;   .. ..$ tpr: num [1:205] 0 0.0222 0.0444 0.0667 0.0889 ...</span></span>
-<span><span class="co">#&gt;   .. ..$ fpr: num [1:205] 0 0 0 0 0 0 0 0 0 0 ...</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ ROC_values:'data.frame':   183 obs. of  2 variables:</span></span>
+<span><span class="co">#&gt;   .. ..$ tpr: num [1:183] 0 0.0222 0.0444 0.0667 0.0889 ...</span></span>
+<span><span class="co">#&gt;   .. ..$ fpr: num [1:183] 0 0 0 0 0 0 0 0 0 0 ...</span></span></code></pre></div>
 <p>The output gives you a list. Each element corresponds to the output
 of the corresponding method function.</p>
 <p>You can also choose to run the method itself after splitting the data
@@ -460,9 +460,9 @@ data is provided.</p>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/strict_indep_set.html">strict_indep_set</a></span><span class="op">(</span><span class="va">KM_train</span>, <span class="va">KM_test</span>, <span class="va">KNM_train</span>, <span class="va">KNM_test</span>, <span class="va">unknown</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">res</span><span class="op">$</span><span class="va">new_SLR</span></span>
-<span><span class="co">#&gt;          SLR</span></span>
-<span><span class="co">#&gt; 1 0.02968769</span></span>
-<span><span class="co">#&gt; 2        Inf</span></span></code></pre></div>
+<span><span class="co">#&gt;           SLR</span></span>
+<span><span class="co">#&gt; 1 0.003522275</span></span>
+<span><span class="co">#&gt; 2         Inf</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
