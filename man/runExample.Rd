@@ -2,10 +2,10 @@
 % Please edit documentation in R/runExample.R
 \name{runExample}
 \alias{runExample}
-\title{This function runs the shiny app for scoreLR}
+\title{Run the shiny app for scoreLR}
 \usage{
 runExample()
 }
 \description{
-This function runs the shiny app for scoreLR
+Run the shiny app for scoreLR
 }

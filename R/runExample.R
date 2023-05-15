@@ -1,4 +1,4 @@
-#' This function runs the shiny app for scoreLR
+#' Run the shiny app for scoreLR
 #' @export
 runExample <- function() {
   appDir <- system.file("shiny-examples", "scoreLRapp",
